@@ -1,0 +1,144 @@
+<div class="flex flex-column">
+  <div class="p-1 w-full bg-gray-50 min-h-screen">
+    <form [formGroup]="displayForm" (ngSubmit)="onSubmit()">
+      <div [ngClass]="gridCustomStyle"
+        class=" bg-emerald-50 shadow-2xl mt-0.5 rounded-xl mx-auto border border-gray-200">
+        <!-- Add a class for easy DOM element selection (for layout calculation) -->
+        <div class="grid-template-container " style="display: grid;" [style]="getGridStyle()" class="p-4">
+          <!-- Grid visualization: Display dashed borders for grid cells -->
+          <ng-container *ngFor="let _col of ([]['constructor'](gridNumberOfCols)); let i = index">
+            <ng-container *ngFor="let _row of ([]['constructor'](gridNumberOfRows)); let j = index">
+              <!-- <div class="border-b border-r border-gray-200 border-dashed" [style.grid-column]="i + 1"
+                [style.grid-row]="j + 1">
+                @if (showLineNumbers) {
+                  <span class="text-red-700 text-xs">
+                    {{i + 1}}/{{j + 1}}
+                  </span>
+                }
+              </div> -->
+            </ng-container>
+          </ng-container>
+
+          <!-- Grid Items (Form Controls & Actions) -->
+          @for (item of gridItems; track item.id) {
+          <!-- The class attribute is now dynamically generated via getGridItemClasses for full control over alignment -->
+          <div [class]="getGridItemClasses(item)" [style.grid-row-start]="item.rowStart"
+            [style.grid-row-end]="item.rowEnd" [style.grid-column-start]="item.colStart"
+            [style.grid-column-end]="item.colEnd">
+            <!-- Content wrapper to stack label and control/button. -->
+            <div class="flex flex-col w-full h-full relative p-1">
+
+              <!-- NOTE: Resize Handle removed -->
+
+              <!-- Actual form controls block - Stop propagation to allow input interaction without deselecting the element -->
+              <div class="flex flex-col w-full h-full relative">
+
+                <!-- Label (Only show for inputs, not for buttons) -->
+                @if (item.type !== 'submit' && item.type !== 'cancel') {
+                <label [for]="item.name" class="text-sm font-semibold mb-1 text-gray-700 block">
+                  {{ item.label }}
+                  @if (item.required) { <span class="text-red-500">*</span> }
+                </label>
+                }
+
+
+                <!-- Form Controls using @switch -->
+                @switch (item.type) {
+                @case ('text') {
+                <input type="text" [id]="item.name" [formControlName]="item.name" [class]="item.customStyle"
+                  class="p-2 border  border-gray-300 rounded-lg w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out" />
+                }
+                @case ('TextArea') {
+                <textarea [id]="item.name" [formControlName]="item.name" [class]="item.customStyle"
+                  class="p-2 border border-gray-300 rounded-lg w-full h-full min-h-24 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out"></textarea>
+                }
+                @case ('date') {
+                <input type="date" [id]="item.name" [formControlName]="item.name" [class]="item.customStyle"
+                  class="p-2 border border-gray-300 rounded-lg w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out" />
+                }
+                @case ('select') {
+                <select [id]="item.name" [formControlName]="item.name" [class]="item.customStyle"
+                  class="p-2 border border-gray-300 rounded-lg w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition duration-150 ease-in-out">
+                  <option [ngValue]="null" disabled selected>Select an option</option>
+                  @for (option of item.options; track option) {
+                  <option [value]="option">{{ option }}</option>
+                  }
+                </select>
+                }
+                @case ('radio') {
+                <!-- Radio group layout -->
+                <div class="mt-1 text-sm flex"
+                  [ngClass]="item.optionsLayout === 'inline' ? 'flex-row space-x-4 flex-wrap' : 'flex-col space-y-1'">
+                  @for (option of item.options; track option) {
+                  <div class="flex items-center space-x-2">
+                    <input type="radio" [class]="item.customStyle" [id]="item.name + '-' + option" [value]="option"
+                      [formControlName]="item.name" class="text-blue-600 focus:ring-blue-500" />
+                    <label [for]="item.name + '-' + option">{{ option }}</label>
+                  </div>
+                  }
+                </div>
+                }
+                @case ('checkbox') {
+                <!-- Checkbox group requires special change handler -->
+                <div class="mt-1 text-sm flex"
+                  [ngClass]="item.optionsLayout === 'inline' ? 'flex-row space-x-4 flex-wrap' : 'flex-col space-y-1'">
+                  @for (option of item.options; track option) {
+                  <div class="flex items-center space-x-2">
+                    <input type="checkbox" [class]="item.customStyle" [id]="item.name + '-' + option" [value]="option"
+                      [checked]="displayForm.get(item.name)?.value?.includes(option)"
+                      (change)="onCheckboxChange($event, item.name, option)"
+                      class="rounded text-blue-600 focus:ring-blue-500" />
+                    <label [for]="item.name + '-' + option">{{ option }}</label>
+                  </div>
+                  }
+                </div>
+                }
+                @case ('uploadFile') {
+                <!-- File input is handled separately and not part of dynamic form value submission -->
+                <input type="file" [id]="item.name" [class]="item.customStyle"
+                  (change)="onFileSelected($event, item.name)"
+                  class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition duration-150 ease-in-out" />
+                }
+                @case ('submit') {
+                <button type="submit" [class]="item.customStyle" [disabled]="displayForm.invalid"
+                  class="w-full px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-150 disabled:bg-gray-400 disabled:cursor-not-allowed">
+                  {{ item.label }}
+                </button>
+                }
+                @case ('cancel') {
+                <button type="button" [class]="item.customStyle" (click)="onCancel()"
+                  class="w-full px-6 py-2 border border-gray-300 bg-white text-gray-700 font-semibold rounded-lg shadow-md hover:bg-gray-100 transition duration-150">
+                  {{ item.label }}
+                </button>
+                }
+                }
+
+                <!-- Error Message (basic validation display) -->
+                @if (item.type !== 'submit' && item.type !== 'cancel' && displayForm.get(item.name)?.invalid &&
+                (displayForm.get(item.name)?.dirty || displayForm.get(item.name)?.touched)) {
+                <p class="text-xs text-red-500 mt-1">
+                  @if (displayForm.get(item.name)?.errors?.['required']) {
+                  {{ item.label }} is required.
+                  }
+                </p>
+                }
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </form>
+
+    <!-- Display Form Value -->
+    <!-- <div class="mt-8 p-4 bg-gray-100 rounded-xl shadow-inner">
+      <h3 class="text-lg font-bold mb-2 text-gray-800">Valeur du formulaire (Aperçu en direct)</h3>
+      <pre
+        class="bg-gray-800 text-green-300 p-3 rounded-lg text-sm overflow-x-auto">{{ displayForm.value | json }}</pre>
+
+      <h3 class="text-lg font-bold mt-4 mb-2 text-gray-800">Fichiers sélectionnés</h3>
+      <pre
+        class="bg-gray-800 text-yellow-300 p-3 rounded-lg text-sm overflow-x-auto">{{ getFileDisplay() | json }}</pre>
+    </div> -->
+  </div>
+</div>

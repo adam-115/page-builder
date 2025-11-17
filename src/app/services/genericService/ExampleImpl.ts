@@ -1,7 +1,7 @@
-import { User } from './../../appTypes';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AbstractCrudService } from './abstract-crud.service';
+import { User } from '../../../appTypes';
 
 
 @Injectable({
