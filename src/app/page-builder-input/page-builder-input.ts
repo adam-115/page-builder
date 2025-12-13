@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { FieldType, FormElement } from '../../appTypes';
 import { CommonModule } from '@angular/common';
+import { FieldType, FormElement } from '../../appTypes';
 
 @Component({
   selector: 'app-page-builder-input',
-  imports: [ReactiveFormsModule,CommonModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './page-builder-input.html',
   styleUrl: './page-builder-input.css',
 })
@@ -16,6 +16,9 @@ export class PageBuilderInput implements OnInit, OnChanges {
 
   @Output()
   createdOrUpdatedFormElementEmitter = new EventEmitter<FormElement>();
+
+  @Output()
+  deleteFormEelmentEmitter = new EventEmitter<FormElement>();
 
   pageForm: FormGroup;
   public fieldTypes: FieldType[] = [
@@ -49,15 +52,16 @@ export class PageBuilderInput implements OnInit, OnChanges {
       label: [''],
       placeholder: [''],
       errorMessage: ['This field is required.'],
-      customStyle:[''],
+      customStyle: [''],
       rowStart: [''],
       rowEnd: [''],
       colStart: [''],
       colEnd: [''],
-      score: [''],
+      score: [0],
       defaultValue: [''],
       display: ['block'], // Defaulting to 'block'
       optionsList: [''],
+      facteur: [""],
     });
 
     this.pageForm.get('fieldType')?.valueChanges.subscribe(value => {
@@ -72,8 +76,6 @@ export class PageBuilderInput implements OnInit, OnChanges {
     if (this.selectedFormElement) {
       this.convertFormElementToForm(this.selectedFormElement);
     }
-
-
   }
 
   get selectedTypeValue(): FieldType | null {
@@ -94,7 +96,7 @@ export class PageBuilderInput implements OnInit, OnChanges {
     // Traitement des options (séparées par une nouvelle ligne)
     let processedOptions: string[] | undefined;
     if (rawData.optionsList) {
-      processedOptions =String(rawData.optionsList)
+      processedOptions = String(rawData.optionsList)
         .split(',')
         .map((line: string) => line.trim())
         .filter((line: string) => line.length > 0);
@@ -102,7 +104,8 @@ export class PageBuilderInput implements OnInit, OnChanges {
 
     // Mappage et conversion des types vers l'interface FormElement
     const newFormElement: FormElement = {
-      id: this.selectedFormElement?.id,
+      id:undefined,
+      uiid: this.selectedFormElement?.uiid,
       type: rawData.fieldType,
       name: rawData.name,
       required: rawData.required,
@@ -112,6 +115,7 @@ export class PageBuilderInput implements OnInit, OnChanges {
       // placeholder: rawData.placeholder || undefined,
       errorMessage: rawData.errorMessage || undefined,
       score: rawData.score ? Number(rawData.score) : undefined,
+      facteur: rawData.facteur,
       defaultValue: rawData.defaultValue || undefined,
 
       // Options et Layout (si applicable)
@@ -128,9 +132,7 @@ export class PageBuilderInput implements OnInit, OnChanges {
       justify: rawData.justify,
       align: rawData.align,
     };
-    // // Affichage du résultat dans la console
-    alert('✅ Nouvel élément de formulaire créé :' + JSON.stringify(newFormElement, null, 2));
-    // this.communicationService.sendFormElementFromDfV2(newFormElement);
+    // alert('✅ Nouvel élément de formulaire créé :' + JSON.stringify(newFormElement, null, 2));
     this.createOrUpdateFormElement(newFormElement);
   }
 
@@ -148,25 +150,32 @@ export class PageBuilderInput implements OnInit, OnChanges {
         colStart: formElement.colStart,
         colEnd: formElement.colEnd,
         score: formElement.score,
+        facteur: formElement.facteur,
         defaultValue: formElement.defaultValue,
         display: formElement.optionsLayout,
         optionsList: formElement.options
       });
     }
     else {
-      if(this.pageForm)
-      {
+      if (this.pageForm) {
         this.pageForm.reset();
         this.pageForm.patchValue({
-        fieldType: 'text',
+          fieldType: 'text',
         });
       }
     }
   }
 
- private  createOrUpdateFormElement(formElement: FormElement) {
+  private createOrUpdateFormElement(formElement: FormElement) {
     this.createdOrUpdatedFormElementEmitter.emit(formElement);
   }
+
+   deleteFromElement() {
+    alert("start delete")
+    this.deleteFormEelmentEmitter.emit(this.selectedFormElement!);
+  }
+
+
 
 
 

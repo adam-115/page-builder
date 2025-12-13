@@ -1,10 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { PageBuilderDisplay } from "./page-builder-display/page-builder-display";
-import { PageViewer } from "./page-viewer/page-viewer";
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [PageBuilderDisplay, PageViewer],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

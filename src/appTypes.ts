@@ -4,12 +4,13 @@ export interface User {
   email: string;
   password:string;
 }
-export interface Page {
+export interface PageConfig {
   id:number | null ,
   gridNumberOfCols:number,
   gridNumberOfRows:number,
   gridRowHighInPX :number;
   gridCustomStyle:string,
+
   formElements:FormElement[],
   order:number,
   step:number,
@@ -23,6 +24,7 @@ type VerticalAlignment = 'start' | 'end' | 'center' | 'baseline' | 'stretch';
 export type FieldType = 'text' | 'TextArea' | 'date' | 'select' | 'checkbox' | 'radio' | 'uploadFile' | 'submit' | 'cancel';
 export interface FormElement {
   id: number | undefined ;
+  uiid?:number;
   type: FieldType;
   name: string; // Added property for the form control name
   required: boolean;
@@ -36,6 +38,7 @@ export interface FormElement {
   colStart: number;
   colEnd: number;
   score?:number;
+  facteur?:number;
   defaultValue?: any;
   optionsLayout?: 'block' | 'inline';
   // NEW: Alignment properties (Justify controls vertical, Align controls horizontal since container is flex-col)
@@ -43,3 +46,4 @@ export interface FormElement {
   align?: VerticalAlignment;
 
 }
+

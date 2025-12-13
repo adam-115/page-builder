@@ -1,10 +1,81 @@
 {
   "posts": [
-    { "id": 1, "title": "Mon premier article", "author": "Alice" },
-    { "id": 2, "title": "Un autre article", "author": "Bob" }
+    {
+      "id": "1",
+      "title": "Mon premier article",
+      "author": "Alice"
+    },
+    {
+      "id": "2",
+      "title": "Un autre article",
+      "author": "Bob"
+    }
   ],
   "users": [
-    { "id": 1, "name": "Alice" },
-    { "id": 2, "name": "Bob" }
+    {
+      "id": "1",
+      "name": "Alice"
+    },
+    {
+      "id": "2",
+      "name": "Bob"
+    }
+  ],
+  "pageConfigs": [
+    {
+      "id": null,
+      "gridNumberOfCols": 11,
+      "gridNumberOfRows": 10,
+      "gridRowHighInPX": 60,
+      "gridCustomStyle": "",
+      "formElements": [
+        {
+          "uiid": 1,
+          "customStyle": "",
+          "defaultValue": "dfsdfsd",
+          "name": "firstName",
+          "type": "text",
+          "required": true,
+          "label": "First Name",
+          "rowStart": 1,
+          "rowEnd": 2,
+          "colStart": 1,
+          "colEnd": 6,
+          "justify": "end",
+          "align": "start"
+        },
+        {
+          "uiid": 2,
+          "name": "lastName",
+          "type": "text",
+          "required": true,
+          "label": "Last Name",
+          "rowStart": 1,
+          "rowEnd": 2,
+          "colStart": 6,
+          "colEnd": 11,
+          "justify": "center",
+          "align": "start"
+        },
+        {
+          "uiid": 1,
+          "type": "text",
+          "name": "aa",
+          "required": false,
+          "label": "aaaa",
+          "errorMessage": "This field is required.",
+          "score": 10,
+          "facteur": 55,
+          "defaultValue": "55a",
+          "optionsLayout": "block",
+          "rowStart": 3,
+          "rowEnd": 4,
+          "colStart": 1,
+          "colEnd": 3
+        }
+      ],
+      "order": 1,
+      "step": 1
+    }
   ]
 }
