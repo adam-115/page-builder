@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { AmlFormConfig } from "./components/aml-form-config/aml-form-config";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [ AmlFormConfig],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
