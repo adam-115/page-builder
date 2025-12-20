@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputType, InputTypeConfig, Option } from '../../../appTypes';
+import { InputTypeConfigService } from '../../services/input-type-config-service';
 
 // Valeurs initiales par défaut
 const initialField: InputTypeConfig = {
@@ -19,7 +20,10 @@ const initialField: InputTypeConfig = {
   templateUrl: './aml-field-edit.html',
   styleUrl: './aml-field-edit.css',
 })
-export class AmlFieldEdit implements OnInit , OnChanges {
+export class AmlFieldEdit implements OnInit, OnChanges {
+
+  inputTypeConfigService = inject(InputTypeConfigService);
+
 
   @Input()
   showDialog = false;
@@ -36,6 +40,7 @@ export class AmlFieldEdit implements OnInit , OnChanges {
 
   constructor(private fb: FormBuilder) { }
 
+  // pour l affichage du popup
   ngOnChanges(): void {
     if (this.showDialog) {
       const dataToLoad = this.fieldConfig.id !== null ? this.fieldConfig : initialField;
@@ -44,6 +49,7 @@ export class AmlFieldEdit implements OnInit , OnChanges {
   }
 
   ngOnInit(): void {
+    // Initialisation du formulaire avec les données entrantes en cas  d update
     const initialData = this.fieldConfig.id !== null ? this.fieldConfig : initialField;
     this.initForm(initialData);
 
@@ -65,6 +71,7 @@ export class AmlFieldEdit implements OnInit , OnChanges {
       name: [config.name, Validators.required],
       labelMessage: [config.labelMessage, Validators.required],
       required: [config.required],
+      score: [config.score, [Validators.min(0), Validators.max(10)]], // Garder le score ici pour uploadFile
       facteur: [config.facteur, [Validators.required, Validators.min(0)]],
       // REMOVED: score from the main form group
       placeholder: [config.placeholder || ''],
@@ -115,42 +122,84 @@ export class AmlFieldEdit implements OnInit , OnChanges {
   }
 
 
-  // Getter pour le FormArray 'options'
-  get options(): FormArray {
-    return this.amlForm.get('options') as FormArray;
+  onSubmit(): void {
+    if (this.amlForm.invalid) {
+      this.amlForm.markAllAsTouched();
+      return;
+    }
+    const formValue = this.amlForm.value;
+
+    // Construction de l'objet de sortie selon l'interface InputTypeConfig
+    const configPayload: InputTypeConfig = {
+      id: formValue.id || null,
+      type: formValue.type as InputType,
+      name: formValue.name,
+      labelMessage: formValue.labelMessage,
+      facteur: formValue.facteur,
+      required: formValue.required,
+      placeholder: formValue.placeholder || '',
+      errorMessage: formValue.errorMessage || '',
+      optionsLayout: formValue.optionsLayout,
+      displayOrer: formValue.displayOrer || 0, // Note: respect de votre typo 'displayOrer'
+      defaultValue: formValue.defaultValue || null
+    };
+
+    // LOGIQUE SPÉCIFIQUE SELON LE TYPE
+    if (configPayload.type === 'uploadFile') {
+      // Pour l'upload, on utilise le score direct et on s'assure qu'il n'y a pas d'options
+      configPayload.score = formValue.score;
+      configPayload.options = [];
+    } else {
+      // Pour select, radio, checkbox, on mappe le FormArray d'options
+      configPayload.score = undefined; // Pas de score global si options présentes
+      configPayload.options = formValue.options.map((opt: any, index: number) => ({
+        id: opt.id || undefined,
+        value: opt.value,
+        score: opt.score,
+        order: index + 1,
+        InputTypeConfigId: configPayload.id
+      }));
+    }
+    console.log('Objet InputTypeConfig prêt pour l\'export:', configPayload);
+    this.inputTypeConfigService.create(configPayload).subscribe({
+      next: (response) => {
+        console.log('Configuration sauvegardée avec succès:', response);
+        this.save.emit(response);
+        this.amlForm.reset();
+      },
+      error: (error) => {
+        console.error('Erreur lors de la sauvegarde de la configuration:', error);
+      }
+    });
+
   }
 
-  // Méthodes pour gérer les options
-  addOption(): void {
-    this.options.push(this.createOptionFormGroup({ value: '', score: 0 }));
-  }
 
-  removeOption(index: number): void {
-    this.options.removeAt(index);
-  }
 
   // Soumission
-  onSubmit(): void {
-    if (this.amlForm.valid) {
-      // Récupérer les données brutes (y compris les champs non contrôlés par le FormArray si nécessaire,
-      // mais ici nous utilisons getRawValue() pour obtenir toutes les valeurs)
-      const finalValue: InputTypeConfig = this.amlForm.getRawValue();
+  // onSubmit(): void {
+  //   if (this.amlForm.valid) {
+  //     // Récupérer les données brutes (y compris les champs non contrôlés par le FormArray si nécessaire,
+  //     // mais ici nous utilisons getRawValue() pour obtenir toutes les valeurs)
+  //     const finalValue: InputTypeConfig = this.amlForm.getRawValue();
 
-      // Nettoyer les propriétés inutiles si le type ne les utilise pas
-      if (!this.optionRequiredTypes.includes(finalValue.type)) {
-        finalValue.options = undefined;
-        finalValue.optionsLayout = undefined;
-      }
+  //     // Nettoyer les propriétés inutiles si le type ne les utilise pas
+  //     if (!this.optionRequiredTypes.includes(finalValue.type)) {
+  //       finalValue.options = undefined;
+  //       finalValue.optionsLayout = undefined;
+  //     }
 
-      this.save.emit(finalValue);
-    } else {
-      this.amlForm.markAllAsTouched();
-    }
-  }
+  //     this.save.emit(finalValue);
+  //   } else {
+  //     this.amlForm.markAllAsTouched();
+  //   }
+  // }
 
   onClose(): void {
+    this.amlForm.reset();
     this.close.emit();
   }
+
 
   /**
    * @description Simule le traitement d'un fichier CSV/JSON pour ajouter des options.
@@ -179,4 +228,106 @@ export class AmlFieldEdit implements OnInit , OnChanges {
       alert(`Importation simulée réussie de ${file.name} ! Vérifiez la section "Options" ci-dessous.`);
     }
   }
+
+  // Gère les changements de type pour adapter le formulaire
+  onTypeChange(): void {
+    const type = this.amlForm.get('type')?.value;
+    this.options.clear();
+    if (type === 'radio') {
+      // Forcer deux options : Oui et Non
+      this.addOption('Oui', 0);
+      this.addOption('Non', 0);
+    } else if (type === 'select' || type === 'checkbox') {
+      this.addOption(); // Ajouter une option vide par défaut
+    }
+    // Pour uploadFile, on ne touche pas aux options (elles restent vides)
+  }
+
+  patchForm(config: InputTypeConfig): void {
+    this.amlForm.patchValue(config);
+    this.options.clear();
+    if (config.options) {
+      config.options.forEach(opt => this.addOption(opt.value, opt.score, opt.id));
+    }
+  }
+
+  get options(): FormArray {
+    return this.amlForm.get('options') as FormArray;
+  }
+
+  addOption(value: string = '', score: number = 0, id: number | null = null): void {
+    const optionGroup = this.fb.group({
+      id: [id],
+      value: [value, Validators.required],
+      score: [score, [Validators.min(0), Validators.max(10)]]
+    });
+    this.options.push(optionGroup);
+  }
+
+  removeOption(index: number): void {
+    this.options.removeAt(index);
+  }
+
+  // Méthode pour gérer l'importation de fichier
+  onFileUploaded(event: any): void {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      const content = e.target.result;
+      this.parseCSV(content);
+    };
+    reader.readAsText(file);
+
+    // Réinitialiser l'input pour permettre de ré-uploader le même fichier si besoin
+    event.target.value = '';
+  }
+
+  private parseCSV(data: string): void {
+    const lines = data.split('\n');
+    this.options.clear();
+
+    lines.forEach(line => {
+      const columns = line.split(',');
+      if (columns.length >= 2) {
+        const value = columns[0].trim();
+        let score = parseFloat(columns[1].trim());
+
+        if (value && !isNaN(score)) {
+          // Force le score entre 0 et 10 même si le CSV contient d'autres valeurs
+          score = Math.max(0, Math.min(10, score));
+          this.addOption(value, score);
+        }
+      }
+    });
+  }
+
+  // onSubmit(): void {
+  //   if (this.amlForm.valid) {
+  //     const result: InputTypeConfig = this.amlForm.value;
+  //     console.log('Données à sauvegarder :', result);
+  //     // Appel au service de sauvegarde ici
+  //   }
+  // }
+
+  testForm(): void {
+    console.log(this.amlForm.valid);
+    console.log('Formulaire actuel :', this.amlForm.value);
+    console.log(this.getFormValidationErrors());
+
+  }
+
+  getFormValidationErrors() {
+  const errors: any = {};
+  Object.keys(this.amlForm.controls).forEach(key => {
+    const controlErrors = this.amlForm.get(key)?.errors;
+    if (controlErrors != null) {
+      errors[key] = controlErrors;
+    }
+    // If you have FormGroups or FormArrays, you'd need to recurse here
+  });
+  console.table(errors); // This shows a nice table in the browser console
+  return errors;
+}
 }

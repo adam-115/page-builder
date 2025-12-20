@@ -1,10 +1,74 @@
 {
   "posts": [
-    { "id": 1, "title": "Mon premier article", "author": "Alice" },
-    { "id": 2, "title": "Un autre article", "author": "Bob" }
+    {
+      "id": "1",
+      "title": "Mon premier article",
+      "author": "Alice"
+    },
+    {
+      "id": "2",
+      "title": "Un autre article",
+      "author": "Bob"
+    }
   ],
   "users": [
-    { "id": 1, "name": "Alice" },
-    { "id": 2, "name": "Bob" }
+    {
+      "id": "1",
+      "name": "Alice"
+    },
+    {
+      "id": "2",
+      "name": "Bob"
+    }
+  ],
+  "InputTypeConfig": [
+    {
+      "id": null,
+      "type": "select",
+      "name": "Nom Technique (ID Formulaire)",
+      "labelMessage": "estimation interne du risque ",
+      "facteur": 1,
+      "required": false,
+      "placeholder": "Texte d'aide (Placeholder)",
+      "errorMessage": "Message d'erreur personnalisé",
+      "optionsLayout": "block",
+      "displayOrer": 0,
+      "defaultValue": null,
+      "options": [
+        {
+          "value": "faible",
+          "score": 0,
+          "order": 1,
+          "InputTypeConfigId": null
+        },
+        {
+          "value": "moyen",
+          "score": 5,
+          "order": 2,
+          "InputTypeConfigId": null
+        },
+        {
+          "value": "élévé",
+          "score": 10,
+          "order": 3,
+          "InputTypeConfigId": null
+        }
+      ]
+    },
+    {
+      "id": null,
+      "type": "uploadFile",
+      "name": "upload file ",
+      "labelMessage": "fichier crs",
+      "facteur": 1,
+      "required": true,
+      "placeholder": "",
+      "errorMessage": "",
+      "optionsLayout": "block",
+      "displayOrer": 0,
+      "defaultValue": null,
+      "score": 10,
+      "options": []
+    }
   ]
 }
