@@ -161,16 +161,17 @@ export class AmlFieldEdit implements OnInit, OnChanges {
       }));
     }
     console.log('Objet InputTypeConfig prêt pour l\'export:', configPayload);
-    this.inputTypeConfigService.create(configPayload).subscribe({
-      next: (response) => {
-        console.log('Configuration sauvegardée avec succès:', response);
-        this.save.emit(response);
-        this.amlForm.reset();
-      },
-      error: (error) => {
-        console.error('Erreur lors de la sauvegarde de la configuration:', error);
-      }
-    });
+    this.save.emit(configPayload);
+    // this.inputTypeConfigService.create(configPayload).subscribe({
+    //   next: (response) => {
+    //     console.log('Configuration sauvegardée avec succès:', response);
+    //     this.save.emit(response as InputTypeConfig);
+    //     this.amlForm.reset();
+    //   },
+    //   error: (error) => {
+    //     console.error('Erreur lors de la sauvegarde de la configuration:', error);
+    //   }
+    // });
 
   }
 

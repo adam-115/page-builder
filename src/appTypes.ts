@@ -71,7 +71,7 @@ export interface Option {
 export interface InputTypeConfig {
   id: number | null,
   type: InputType;
-  name: string; // Added property for the form control name
+  name: string; // Added property for the form control name it must be unique
   score?:number;// used for upload
   facteur: number,
   required: boolean;
@@ -84,4 +84,28 @@ export interface InputTypeConfig {
   displayOrer?: number;
   optionsLayout?: 'block' | 'inline';
 }
+
+export interface AmlPageConfig {
+  id: number | null,
+  pageName: string,
+  pageTitle: string,
+  pageDescription: string,
+  formConfig: InputTypeConfig[],
+  order: number,
+}
+
+
+export interface AlertConfig {
+  id?: number;// used to identify alert instances
+  type: 'error' | 'warning' | 'info' | 'success' | 'confirm';
+  title: string;
+  message: string;
+  confirmText?: string;
+  cancelText?: string;
+}
+
+
+
+
+
 
