@@ -1,5 +1,4 @@
 @if(showDialog) {
-
 <div
   class="fixed inset-0 dialog-overlay overflow-y-auto h-full w-full z-50 bg-gray-50 opacity-95 flex items-start justify-center pt-10">
   <div
@@ -199,7 +198,7 @@
         </button>
         <button type="submit" [disabled]="amlForm.invalid"
           class="px-8 py-2.5 rounded-lg bg-indigo-600 text-white text-sm font-bold shadow-lg shadow-indigo-200 hover:bg-indigo-700 disabled:opacity-50 disabled:shadow-none transition">
-          {{ amlForm.get('id')?.value ? 'Mettre à jour' : 'Créer le Champ' }}
+          {{ selectedInputTypeConfig? 'Mettre à jour' : 'Créer le Champ' }}
         </button>
       </div>
 

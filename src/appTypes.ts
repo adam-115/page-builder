@@ -10,11 +10,9 @@ export interface PageConfig {
   gridNumberOfRows: number,
   gridRowHighInPX: number;
   gridCustomStyle: string,
-
   formElements: FormElement[],
   order: number,
   step: number,
-
 }
 
 // Define types for alignment options
@@ -90,8 +88,8 @@ export interface AmlPageConfig {
   pageName: string,
   pageTitle: string,
   pageDescription: string,
-  formConfig: InputTypeConfig[],
   order: number,
+  formConfig: InputTypeConfig[],
 }
 
 

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, OnInit, output, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputType, InputTypeConfig, Option } from '../../../appTypes';
 import { InputTypeConfigService } from '../../services/input-type-config-service';
@@ -26,11 +26,16 @@ export class AmlFieldEdit implements OnInit, OnChanges {
 
 
   @Input()
+  selectedInputTypeConfig: InputTypeConfig | null = null;
+
+  @Input()
   showDialog = false;
   @Input()
   fieldConfig: InputTypeConfig = initialField;
   @Output()
   save = new EventEmitter<InputTypeConfig>();
+  @Output()
+  update = new EventEmitter<InputTypeConfig>();
   @Output()
   close = new EventEmitter<void>();
 
@@ -42,10 +47,21 @@ export class AmlFieldEdit implements OnInit, OnChanges {
 
   // pour l affichage du popup
   ngOnChanges(): void {
+    this.initForm({
+      id: null,
+      type: 'select',
+      name: '',
+      facteur: 1,
+      required: false,
+      labelMessage: '',
+    });
     if (this.showDialog) {
       const dataToLoad = this.fieldConfig.id !== null ? this.fieldConfig : initialField;
-      this.initForm(dataToLoad);
     }
+    if (this.selectedInputTypeConfig !== null) {
+      this.patchForm(this.selectedInputTypeConfig);
+    }
+
   }
 
   ngOnInit(): void {
@@ -160,8 +176,13 @@ export class AmlFieldEdit implements OnInit, OnChanges {
         InputTypeConfigId: configPayload.id
       }));
     }
-    console.log('Objet InputTypeConfig prêt pour l\'export:', configPayload);
-    this.save.emit(configPayload);
+    if (this.selectedInputTypeConfig) {
+      this.update.emit(configPayload);
+    } else {
+      this.save.emit(configPayload);
+    }
+
+
     // this.inputTypeConfigService.create(configPayload).subscribe({
     //   next: (response) => {
     //     console.log('Configuration sauvegardée avec succès:', response);
@@ -226,7 +247,7 @@ export class AmlFieldEdit implements OnInit, OnChanges {
       // Réinitialiser la valeur de l'input pour permettre l'upload du même fichier à nouveau
       input.value = '';
 
-      alert(`Importation simulée réussie de ${file.name} ! Vérifiez la section "Options" ci-dessous.`);
+      // alert(`Importation simulée réussie de ${file.name} ! Vérifiez la section "Options" ci-dessous.`);
     }
   }
 
@@ -312,23 +333,18 @@ export class AmlFieldEdit implements OnInit, OnChanges {
   //   }
   // }
 
-  testForm(): void {
-    console.log(this.amlForm.valid);
-    console.log('Formulaire actuel :', this.amlForm.value);
-    console.log(this.getFormValidationErrors());
 
-  }
 
   getFormValidationErrors() {
-  const errors: any = {};
-  Object.keys(this.amlForm.controls).forEach(key => {
-    const controlErrors = this.amlForm.get(key)?.errors;
-    if (controlErrors != null) {
-      errors[key] = controlErrors;
-    }
-    // If you have FormGroups or FormArrays, you'd need to recurse here
-  });
-  console.table(errors); // This shows a nice table in the browser console
-  return errors;
-}
+    const errors: any = {};
+    Object.keys(this.amlForm.controls).forEach(key => {
+      const controlErrors = this.amlForm.get(key)?.errors;
+      if (controlErrors != null) {
+        errors[key] = controlErrors;
+      }
+      // If you have FormGroups or FormArrays, you'd need to recurse here
+    });
+    console.table(errors); // This shows a nice table in the browser console
+    return errors;
+  }
 }

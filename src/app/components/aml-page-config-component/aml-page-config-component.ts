@@ -1,11 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AlertConfig, AmlPageConfig, InputTypeConfig } from '../../../appTypes';
 import { AlertComponent } from "../alert-component/alert-component";
 import { AmlFieldEdit } from "../aml-field-edit/aml-field-edit";
 
 @Component({
   selector: 'app-aml-page-config-component',
-  imports: [AmlFieldEdit, AlertComponent],
+  imports: [CommonModule, ReactiveFormsModule, AmlFieldEdit, AlertComponent],
   templateUrl: './aml-page-config-component.html',
   styleUrl: './aml-page-config-component.css',
 })
@@ -13,8 +15,11 @@ export class AmlPageConfigComponent implements OnInit {
   showDilogNouveauChamp = false;
   inputTypesConfigs: InputTypeConfig[] = [];
   selectedTypeConfig: InputTypeConfig | null = null;
-
   showdialogAlert: boolean = false;
+
+  pageForm: FormGroup = new FormGroup({});
+
+
   alertConfig: AlertConfig = {
     type: 'error',
     title: 'Confirmation',
@@ -31,15 +36,25 @@ export class AmlPageConfigComponent implements OnInit {
     order: 1,
   };
 
-  constructor() { }
+  constructor(private readonly fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.pageForm = this.fb.group({
+      pageName: [this.pageConfig.pageName, Validators.required],
+      pageTitle: [this.pageConfig.pageTitle, Validators.required],
+      pageDescription: [this.pageConfig.pageDescription],
+      pageOrder: [this.pageConfig.order],
+    });
 
   }
 
   // OUVRE LE DIALOGUE POUR CRÉER OU MODIFIER UN CHAMP
-  openFieldDialog(field?: InputTypeConfig, index?: number): void {
-
+  openFieldDialog(inputTypeConfig?: InputTypeConfig): void {
+    if (inputTypeConfig) {
+      this.selectedTypeConfig = inputTypeConfig;
+    } else {
+      this.selectedTypeConfig = null;
+    }
     this.showDilogNouveauChamp = true;
 
   }
@@ -58,7 +73,6 @@ export class AmlPageConfigComponent implements OnInit {
     if (!this.pageConfig.pageName || !this.pageConfig.pageTitle) {
       return;
     }
-    console.log('Envoi de AmlPageConfig au backend:', this.pageConfig);
     // Appel service API ici
   }
 
@@ -67,13 +81,12 @@ export class AmlPageConfigComponent implements OnInit {
     // Ouvrir le dialogue pour ajouter un nouveau champ
     this.openFieldDialog();
   }
+
   closeFieldDialog(): void {
     this.showDilogNouveauChamp = false;
-
   }
 
   addOrUpdateField(inputTypeConfig: any): void {
-    console.log('Field reçu du dialogue:', inputTypeConfig);
     inputTypeConfig = inputTypeConfig as InputTypeConfig;
     // check if the field already exists (update) or is new (add)
     if (this.isInputTypeConfigExist(inputTypeConfig.name)) {
@@ -81,22 +94,20 @@ export class AmlPageConfigComponent implements OnInit {
     } else {
       this.inputTypesConfigs.push(inputTypeConfig);
       this.pageConfig.formConfig = [...this.inputTypesConfigs];
-      console.log(" the list of input type configs " + JSON.stringify(this.inputTypesConfigs));
       this.closeFieldDialog();
     }
   }
 
 
   confirmAlert(id: number): void {
-    if(id === 2) { // 2 for delete confirmation
-     this.deleteInputTypeConfig(this.selectedTypeConfig?.name || '');
-     this.showdialogAlert = false;
+    if (id === 2) { // 2 for delete confirmation
+      this.deleteInputTypeConfig(this.selectedTypeConfig?.name || '');
+      this.showdialogAlert = false;
     }
   }
 
   cancelAlert(id: number): void {
     // Logique à exécuter lorsque l'utilisateur annule l'alerte
-    console.log('Alerte annulée');
     this.showdialogAlert = false;
   }
 
@@ -137,12 +148,60 @@ export class AmlPageConfigComponent implements OnInit {
     }
   }
 
-  editInputTypeConfig(): void {
-    let config: InputTypeConfig | undefined = this.inputTypesConfigs.find(config => config.name === this.selectedTypeConfig?.name);
-    if (config) {
-      this.openFieldDialog(config);
+  // editInputTypeConfig(inputTypeConfig: InputTypeConfig): void {
+  //   let config: InputTypeConfig | undefined = this.inputTypesConfigs.find(config => config.name === this.selectedTypeConfig?.name);
+  //   if (config) {
+  //     this.openFieldDialog(config);
+  //   }
+  // }
+
+
+  updateInputTypeConfig(updatedConfig: InputTypeConfig): void {
+    const index = this.inputTypesConfigs.findIndex(config => config.name === updatedConfig.name);
+    if (index !== -1) {
+      this.inputTypesConfigs[index] = updatedConfig;
+      this.pageConfig.formConfig = [...this.inputTypesConfigs];
+      this.closeFieldDialog();
     }
   }
+
+  Onsubmit(): void {
+    this.savePage();
+  }
+
+
+  // In your component class
+  private convertFormToAmlPageConfig(): AmlPageConfig {
+    const formValue = this.pageForm.getRawValue(); // Use getRawValue() to get all values including disabled controls
+
+    const amlPageConfig: AmlPageConfig = {
+      id: null,
+      pageName: formValue.pageName,
+      pageTitle: formValue.pageTitle,
+      pageDescription: formValue.pageDescription || '', // Handle optional field
+      order: formValue.pageOrder || 0, // Assuming order is number, provide default
+      formConfig: this.inputTypesConfigs,
+    };
+
+    return amlPageConfig;
+  }
+
+
+  // Initialize form when creating component or loading data
+private initializeFormWithAmlPageConfig(pageConfig: AmlPageConfig): void {
+  this.pageForm = this.fb.group({
+    pageName: [pageConfig.pageName || '', Validators.required],
+    pageTitle: [pageConfig.pageTitle || '', Validators.required],
+    pageDescription: [pageConfig.pageDescription || ''],
+    pageOrder: [pageConfig.order || 0],
+  });
+}
+
+
+annuler(): void {
+  alert('annulation');
+}
+
 
 
 }
