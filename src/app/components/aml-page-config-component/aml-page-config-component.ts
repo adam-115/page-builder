@@ -6,6 +6,7 @@ import { AlertComponent } from "../alert-component/alert-component";
 import { AmlFieldEdit } from "../aml-field-edit/aml-field-edit";
 import { AmlPageView } from "../aml-page-view/aml-page-view";
 import { PageConfigService } from './../../services/page-config-service';
+import { NotificationService } from '../../services/notification-service';
 
 @Component({
   selector: 'app-aml-page-config-component',
@@ -16,12 +17,14 @@ import { PageConfigService } from './../../services/page-config-service';
 export class AmlPageConfigComponent implements OnInit {
 
   pageConfigService = inject(PageConfigService);
+  notificationService = inject(NotificationService);
   showDilogNouveauChamp = false;
   inputTypesConfigs: InputTypeConfig[] = [];
   selectedTypeConfig: InputTypeConfig | null = null;
   showdialogAlert: boolean = false;
   showDialogPreview: boolean = false;
   amlPagePreviewConfig: AmlPageConfig | null = null;
+
 
 
   pageForm: FormGroup = new FormGroup({});
@@ -77,8 +80,13 @@ export class AmlPageConfigComponent implements OnInit {
   savePage(): void {
     if (this.pageForm.valid && this.inputTypesConfigs.length > 0) {
       this.pageConfig = this.convertFormToAmlPageConfig();
-      this.pageConfigService.create(this.pageConfig).subscribe(response => {
-        alert('Page saved successfully!');
+      this.pageConfigService.create(this.pageConfig).subscribe({
+        next: (response) => {
+          this.notificationService.info("c est un message test ");
+        },
+        error: (err) => {
+          this.notificationService.error("message d erreur ");
+        }
       });
     }
   }

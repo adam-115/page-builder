@@ -102,6 +102,15 @@ export interface AlertConfig {
   cancelText?: string;
 }
 
+export type NotificationType = 'info' | 'success' | 'warning' | 'error';
+
+export interface Notification {
+  id: number;
+  type: NotificationType;
+  message: string;
+  duration: number;
+}
+
 
 
 

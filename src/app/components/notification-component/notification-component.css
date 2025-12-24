@@ -1,0 +1,27 @@
+.animate-slide-down {
+      animation: slideDown 0.3s ease-out;
+    }
+
+    .progress-animation {
+      animation: progressBar linear forwards;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes progressBar {
+      from {
+        width: 100%;
+      }
+      to {
+        width: 0%;
+      }
+    }
