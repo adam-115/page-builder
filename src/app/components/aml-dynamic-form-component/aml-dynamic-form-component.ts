@@ -136,7 +136,7 @@ export class AmlDynamicFormComponent implements OnInit {
       //case radio
       if (config.type === 'radio') {
         let fieldValue = this.dynamicForm.get(config.name)?.value;
-        if (fieldValue != null && fieldValue != undefined  && fieldValue != '') {
+        if (fieldValue != null && fieldValue != undefined && fieldValue != '') {
           let selectedOption = config.options?.find(opt => opt.value === fieldValue);
           if (selectedOption) {
             score += (selectedOption.score * config.facteur);

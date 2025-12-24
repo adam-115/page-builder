@@ -1,25 +1,30 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AlertConfig, AmlPageConfig, InputTypeConfig } from '../../../appTypes';
 import { AlertComponent } from "../alert-component/alert-component";
 import { AmlFieldEdit } from "../aml-field-edit/aml-field-edit";
+import { AmlPageView } from "../aml-page-view/aml-page-view";
+import { PageConfigService } from './../../services/page-config-service';
 
 @Component({
   selector: 'app-aml-page-config-component',
-  imports: [CommonModule, ReactiveFormsModule, AmlFieldEdit, AlertComponent],
+  imports: [CommonModule, ReactiveFormsModule, AmlFieldEdit, AlertComponent, AmlPageView],
   templateUrl: './aml-page-config-component.html',
   styleUrl: './aml-page-config-component.css',
 })
 export class AmlPageConfigComponent implements OnInit {
+
+  pageConfigService = inject(PageConfigService);
   showDilogNouveauChamp = false;
   inputTypesConfigs: InputTypeConfig[] = [];
   selectedTypeConfig: InputTypeConfig | null = null;
   showdialogAlert: boolean = false;
+  showDialogPreview: boolean = false;
+  amlPagePreviewConfig: AmlPageConfig | null = null;
+
 
   pageForm: FormGroup = new FormGroup({});
-
-
   alertConfig: AlertConfig = {
     type: 'error',
     title: 'Confirmation',
@@ -70,10 +75,12 @@ export class AmlPageConfigComponent implements OnInit {
 
   // SAUVEGARDE GLOBALE DE LA PAGE
   savePage(): void {
-    if (!this.pageConfig.pageName || !this.pageConfig.pageTitle) {
-      return;
+    if (this.pageForm.valid && this.inputTypesConfigs.length > 0) {
+      this.pageConfig = this.convertFormToAmlPageConfig();
+      this.pageConfigService.create(this.pageConfig).subscribe(response => {
+        alert('Page saved successfully!');
+      });
     }
-    // Appel service API ici
   }
 
 
@@ -188,19 +195,28 @@ export class AmlPageConfigComponent implements OnInit {
 
 
   // Initialize form when creating component or loading data
-private initializeFormWithAmlPageConfig(pageConfig: AmlPageConfig): void {
-  this.pageForm = this.fb.group({
-    pageName: [pageConfig.pageName || '', Validators.required],
-    pageTitle: [pageConfig.pageTitle || '', Validators.required],
-    pageDescription: [pageConfig.pageDescription || ''],
-    pageOrder: [pageConfig.order || 0],
-  });
-}
+  private initializeFormWithAmlPageConfig(pageConfig: AmlPageConfig): void {
+    this.pageForm = this.fb.group({
+      pageName: [pageConfig.pageName || '', Validators.required],
+      pageTitle: [pageConfig.pageTitle || '', Validators.required],
+      pageDescription: [pageConfig.pageDescription || ''],
+      pageOrder: [pageConfig.order || 0],
+    });
+  }
 
 
-annuler(): void {
-  alert('annulation');
-}
+  annuler(): void {
+    alert('annulation');
+  }
+
+  openPreviewDialog(): void {
+    this.amlPagePreviewConfig = this.convertFormToAmlPageConfig();
+    this.showDialogPreview = true;
+  }
+
+  closePreviewDialog(): void {
+    this.showDialogPreview = false;
+  }
 
 
 
