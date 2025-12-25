@@ -6,7 +6,7 @@ import { Notification, NotificationType } from '../../appTypes';
   providedIn: 'root',
 })
 export class NotificationService {
-  private notificationSubject = new Subject<Notification>();
+  private readonly notificationSubject = new Subject<Notification>();
   private currentId = 0;
 
   get notifications$() {

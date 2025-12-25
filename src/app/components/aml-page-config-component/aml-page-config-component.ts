@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AlertConfig, AmlPageConfig, InputTypeConfig } from '../../../appTypes';
+import { NotificationService } from '../../services/notification-service';
 import { AlertComponent } from "../alert-component/alert-component";
 import { AmlFieldEdit } from "../aml-field-edit/aml-field-edit";
 import { AmlPageView } from "../aml-page-view/aml-page-view";
+import { NavigationService } from './../../services/navigation-service';
 import { PageConfigService } from './../../services/page-config-service';
-import { NotificationService } from '../../services/notification-service';
 
 @Component({
   selector: 'app-aml-page-config-component',
@@ -18,6 +19,7 @@ export class AmlPageConfigComponent implements OnInit {
 
   pageConfigService = inject(PageConfigService);
   notificationService = inject(NotificationService);
+  navigationService = inject(NavigationService);
   showDilogNouveauChamp = false;
   inputTypesConfigs: InputTypeConfig[] = [];
   selectedTypeConfig: InputTypeConfig | null = null;
@@ -163,14 +165,6 @@ export class AmlPageConfigComponent implements OnInit {
     }
   }
 
-  // editInputTypeConfig(inputTypeConfig: InputTypeConfig): void {
-  //   let config: InputTypeConfig | undefined = this.inputTypesConfigs.find(config => config.name === this.selectedTypeConfig?.name);
-  //   if (config) {
-  //     this.openFieldDialog(config);
-  //   }
-  // }
-
-
   updateInputTypeConfig(updatedConfig: InputTypeConfig): void {
     const index = this.inputTypesConfigs.findIndex(config => config.name === updatedConfig.name);
     if (index !== -1) {
@@ -214,7 +208,7 @@ export class AmlPageConfigComponent implements OnInit {
 
 
   annuler(): void {
-    alert('annulation');
+    this.navigationService.navigateToPageConfigList();
   }
 
   openPreviewDialog(): void {
