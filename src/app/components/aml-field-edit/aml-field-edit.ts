@@ -1,12 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, OnChanges, OnInit, output, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputType, InputTypeConfig, Option } from '../../../appTypes';
-import { InputTypeConfigService } from '../../services/input-type-config-service';
 
 // Valeurs initiales par défaut
 const initialField: InputTypeConfig = {
-  id: null,
   type: 'select',
   name: '',
   facteur: 1,
@@ -20,55 +18,38 @@ const initialField: InputTypeConfig = {
   templateUrl: './aml-field-edit.html',
   styleUrl: './aml-field-edit.css',
 })
-export class AmlFieldEdit implements OnInit, OnChanges {
+export class AmlFieldEdit implements OnInit {
 
-  inputTypeConfigService = inject(InputTypeConfigService);
+  fb = inject(FormBuilder);
 
-
+  // for the update
   @Input()
   selectedInputTypeConfig: InputTypeConfig | null = null;
 
-  @Input()
-  showDialog = false;
-  @Input()
-  fieldConfig: InputTypeConfig = initialField;
+  //events
   @Output()
   save = new EventEmitter<InputTypeConfig>();
+
   @Output()
   update = new EventEmitter<InputTypeConfig>();
+
   @Output()
-  close = new EventEmitter<void>();
+  closed = new EventEmitter<void>();
 
   amlForm!: FormGroup;
   availableTypes: InputType[] = ['select', 'checkbox', 'radio', 'uploadFile'];
   optionRequiredTypes: InputType[] = ['select', 'checkbox', 'radio'];
 
-  constructor(private fb: FormBuilder) { }
+  constructor() { }
 
-  // pour l affichage du popup
-  ngOnChanges(): void {
-    this.initForm({
-      id: null,
-      type: 'select',
-      name: '',
-      facteur: 1,
-      required: false,
-      labelMessage: '',
-    });
-    if (this.showDialog) {
-      const dataToLoad = this.fieldConfig.id !== null ? this.fieldConfig : initialField;
-    }
-    if (this.selectedInputTypeConfig !== null) {
-      this.patchForm(this.selectedInputTypeConfig);
-    }
-
-  }
 
   ngOnInit(): void {
-    // Initialisation du formulaire avec les données entrantes en cas  d update
-    const initialData = this.fieldConfig.id !== null ? this.fieldConfig : initialField;
-    this.initForm(initialData);
-
+    if (this.selectedInputTypeConfig) {
+      console.log(this.selectedInputTypeConfig);
+      this.initForm(this.selectedInputTypeConfig);
+    } else {
+      this.initForm(initialField);
+    }
     // Abonnement pour gérer dynamiquement le FormArray 'options'
     this.amlForm.get('type')?.valueChanges.subscribe((type: InputType) => {
       this.toggleOptionsLogic(type);
@@ -80,7 +61,6 @@ export class AmlFieldEdit implements OnInit, OnChanges {
 
     // Créer le FormArray 'options' basé sur les données existantes
     const initialOptions: Option[] = config.options || [];
-
     this.amlForm = this.fb.group({
       id: [config.id],
       type: [config.type, Validators.required],
@@ -177,49 +157,18 @@ export class AmlFieldEdit implements OnInit, OnChanges {
       }));
     }
     if (this.selectedInputTypeConfig) {
+      alert("send update");
       this.update.emit(configPayload);
     } else {
       this.save.emit(configPayload);
     }
 
-
-    // this.inputTypeConfigService.create(configPayload).subscribe({
-    //   next: (response) => {
-    //     console.log('Configuration sauvegardée avec succès:', response);
-    //     this.save.emit(response as InputTypeConfig);
-    //     this.amlForm.reset();
-    //   },
-    //   error: (error) => {
-    //     console.error('Erreur lors de la sauvegarde de la configuration:', error);
-    //   }
-    // });
-
   }
 
 
-
-  // Soumission
-  // onSubmit(): void {
-  //   if (this.amlForm.valid) {
-  //     // Récupérer les données brutes (y compris les champs non contrôlés par le FormArray si nécessaire,
-  //     // mais ici nous utilisons getRawValue() pour obtenir toutes les valeurs)
-  //     const finalValue: InputTypeConfig = this.amlForm.getRawValue();
-
-  //     // Nettoyer les propriétés inutiles si le type ne les utilise pas
-  //     if (!this.optionRequiredTypes.includes(finalValue.type)) {
-  //       finalValue.options = undefined;
-  //       finalValue.optionsLayout = undefined;
-  //     }
-
-  //     this.save.emit(finalValue);
-  //   } else {
-  //     this.amlForm.markAllAsTouched();
-  //   }
-  // }
-
   onClose(): void {
     this.amlForm.reset();
-    this.close.emit();
+    this.closed.emit();
   }
 
 

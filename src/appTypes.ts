@@ -67,7 +67,7 @@ export interface Option {
 }
 
 export interface InputTypeConfig {
-  id: number | null,
+  id?: number,
   type: InputType;
   name: string; // Added property for the form control name it must be unique
   score?:number;// used for upload
@@ -84,7 +84,7 @@ export interface InputTypeConfig {
 }
 
 export interface AmlPageConfig {
-  id: number | null,
+  id?: number ,
   pageName: string,
   pageTitle: string,
   pageDescription: string,

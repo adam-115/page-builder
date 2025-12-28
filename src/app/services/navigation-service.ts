@@ -15,7 +15,7 @@ export class NavigationService {
 
   public static readonly PAGE_CONFIG_LIST = "page-config-list";
   public static readonly PAGE_CONFIG_CREATE = "page-config/create";
-  public static readonly PAGE_CONFIG_EDITE = "page-config/edite/:id";
+  public static readonly PAGE_CONFIG_EDIT = "page-config/edite/:id";
 
 
   public navigateToPageConfigList(): void {
@@ -23,10 +23,15 @@ export class NavigationService {
   }
 
   public navigateToNewPageConfig(): void {
-    this.router.navigate(['/',...NavigationService.PAGE_CONFIG_CREATE.split('/')]);
+    this.router.navigate(['/', ...NavigationService.PAGE_CONFIG_CREATE.split('/')]);
   }
 
 
+  public navigateToEditPageConfig(id: number): void {
+    let targetUrl = NavigationService.PAGE_CONFIG_EDIT.replace(":id", id.toString());
+    this.router.navigate(['/', ...targetUrl.split("/")]);
+
+  }
 
 
 

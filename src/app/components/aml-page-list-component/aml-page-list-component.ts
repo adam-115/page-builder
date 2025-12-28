@@ -33,18 +33,21 @@ export class AmlPageListComponent implements OnInit {
 
 
   editPage(page: AmlPageConfig) {
-    console.log('Naviguer vers l\'éditeur pour la page:', page.id);
-    // Ici : this.router.navigate(['/builder', page.id]);
-  }
-
-  deletePage(id: number | null) {
-    if (confirm('Êtes-vous sûr de vouloir supprimer cette page ?')) {
-      this.pages = this.pages.filter(p => p.id !== id);
+    if (page.id) {
+      this.navigateService.navigateToEditPageConfig(page.id);
     }
   }
+
+  // deletePage(id: number | null) {
+  //   alert("edit page "+id);
+  //   if (confirm('Êtes-vous sûr de vouloir supprimer cette page ?')) {
+  //     this.pages = this.pages.filter(p => p.id !== id);
+  //   }
+  // }
 
   createNewPage() {
     this.navigateService.navigateToNewPageConfig();
   }
+
 
 }

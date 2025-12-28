@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { AlertConfig, AmlPageConfig, InputTypeConfig } from '../../../appTypes';
 import { NotificationService } from '../../services/notification-service';
 import { AlertComponent } from "../alert-component/alert-component";
@@ -17,18 +18,25 @@ import { PageConfigService } from './../../services/page-config-service';
 })
 export class AmlPageConfigComponent implements OnInit {
 
+  // service injection
   pageConfigService = inject(PageConfigService);
   notificationService = inject(NotificationService);
   navigationService = inject(NavigationService);
-  showDilogNouveauChamp = false;
+  activatedRoute = inject(ActivatedRoute);
+
   inputTypesConfigs: InputTypeConfig[] = [];
+
+  // if is on edit mode
+  isEditeMode = false;
+  editedPageConfig: AmlPageConfig | null = null;
   selectedTypeConfig: InputTypeConfig | null = null;
+  showDialogNewInputTypeConfig = false;
+
   showdialogAlert: boolean = false;
   showDialogPreview: boolean = false;
+
+
   amlPagePreviewConfig: AmlPageConfig | null = null;
-
-
-
   pageForm: FormGroup = new FormGroup({});
   alertConfig: AlertConfig = {
     type: 'error',
@@ -38,7 +46,6 @@ export class AmlPageConfigComponent implements OnInit {
   };
   // Initialisation de l'objet selon votre interface AmlPageConfig
   pageConfig: AmlPageConfig = {
-    id: 1,
     pageName: '',
     pageTitle: '',
     pageDescription: '',
@@ -47,41 +54,60 @@ export class AmlPageConfigComponent implements OnInit {
   };
 
   constructor(private readonly fb: FormBuilder) { }
-
   ngOnInit(): void {
+    // build dynamic form
+    this.buildForm();
+    // check if is update a init data if the case
+    this.isItUpdateMode();
+  }
+
+  // load config to update
+  private isItUpdateMode(): void {
+    this.activatedRoute.paramMap.subscribe(params => {
+      const id = params.get("id");
+      this.isEditeMode = !!id;
+      if (this.isEditeMode) {
+        this.pageConfigService.findById(id).subscribe(data => {
+          this.editedPageConfig = data;
+          console.log(this.editedPageConfig);
+          this.initializeFormWithAmlPageConfig(this.editedPageConfig);
+        })
+      }
+    });
+  }
+
+  // build dynamic form for the page
+  private buildForm(): void {
     this.pageForm = this.fb.group({
       pageName: [this.pageConfig.pageName, Validators.required],
       pageTitle: [this.pageConfig.pageTitle, Validators.required],
       pageDescription: [this.pageConfig.pageDescription],
       pageOrder: [this.pageConfig.order],
     });
-
   }
 
-  // OUVRE LE DIALOGUE POUR CRÉER OU MODIFIER UN CHAMP
-  openFieldDialog(inputTypeConfig?: InputTypeConfig): void {
-    if (inputTypeConfig) {
-      this.selectedTypeConfig = inputTypeConfig;
-    } else {
-      this.selectedTypeConfig = null;
-    }
-    this.showDilogNouveauChamp = true;
 
+  openInputFieldDialogForEdit(inputTypeConfig:InputTypeConfig):void{
+    this.selectedTypeConfig = inputTypeConfig ;
+    this.showDialogNewInputTypeConfig = true ;
   }
+
+
 
   // SUPPRIMER UN CHAMP
-  removeField(index: number): void {
-    if (confirm('Voulez-vous vraiment supprimer ce champ ?')) {
-      this.pageConfig.formConfig.splice(index, 1);
-      // Réorganiser les ordres d'affichage après suppression
-      this.pageConfig.formConfig.forEach((f, i) => f.displayOrer = i + 1);
-    }
-  }
+  // removeField(index: number): void {
+  //   if (confirm('Voulez-vous vraiment supprimer ce champ ?')) {
+  //     this.pageConfig.formConfig.splice(index, 1);
+  //     // Réorganiser les ordres d'affichage après suppression
+  //     this.pageConfig.formConfig.forEach((f, i) => f.displayOrer = i + 1);
+  //   }
+  // }
 
   // SAUVEGARDE GLOBALE DE LA PAGE
   savePage(): void {
     if (this.pageForm.valid && this.inputTypesConfigs.length > 0) {
       this.pageConfig = this.convertFormToAmlPageConfig();
+      console.log(this.pageConfig);
       this.pageConfigService.create(this.pageConfig).subscribe({
         next: (response) => {
           this.notificationService.info("c est un message test ");
@@ -92,29 +118,6 @@ export class AmlPageConfigComponent implements OnInit {
       });
     }
   }
-
-
-  addnewField(): void {
-    // Ouvrir le dialogue pour ajouter un nouveau champ
-    this.openFieldDialog();
-  }
-
-  closeFieldDialog(): void {
-    this.showDilogNouveauChamp = false;
-  }
-
-  addOrUpdateField(inputTypeConfig: any): void {
-    inputTypeConfig = inputTypeConfig as InputTypeConfig;
-    // check if the field already exists (update) or is new (add)
-    if (this.isInputTypeConfigExist(inputTypeConfig.name)) {
-      this.showAlertFiledConfigExists(inputTypeConfig.name);
-    } else {
-      this.inputTypesConfigs.push(inputTypeConfig);
-      this.pageConfig.formConfig = [...this.inputTypesConfigs];
-      this.closeFieldDialog();
-    }
-  }
-
 
   confirmAlert(id: number): void {
     if (id === 2) { // 2 for delete confirmation
@@ -165,14 +168,7 @@ export class AmlPageConfigComponent implements OnInit {
     }
   }
 
-  updateInputTypeConfig(updatedConfig: InputTypeConfig): void {
-    const index = this.inputTypesConfigs.findIndex(config => config.name === updatedConfig.name);
-    if (index !== -1) {
-      this.inputTypesConfigs[index] = updatedConfig;
-      this.pageConfig.formConfig = [...this.inputTypesConfigs];
-      this.closeFieldDialog();
-    }
-  }
+
 
   Onsubmit(): void {
     this.savePage();
@@ -184,7 +180,6 @@ export class AmlPageConfigComponent implements OnInit {
     const formValue = this.pageForm.getRawValue(); // Use getRawValue() to get all values including disabled controls
 
     const amlPageConfig: AmlPageConfig = {
-      id: null,
       pageName: formValue.pageName,
       pageTitle: formValue.pageTitle,
       pageDescription: formValue.pageDescription || '', // Handle optional field
@@ -194,18 +189,6 @@ export class AmlPageConfigComponent implements OnInit {
 
     return amlPageConfig;
   }
-
-
-  // Initialize form when creating component or loading data
-  private initializeFormWithAmlPageConfig(pageConfig: AmlPageConfig): void {
-    this.pageForm = this.fb.group({
-      pageName: [pageConfig.pageName || '', Validators.required],
-      pageTitle: [pageConfig.pageTitle || '', Validators.required],
-      pageDescription: [pageConfig.pageDescription || ''],
-      pageOrder: [pageConfig.order || 0],
-    });
-  }
-
 
   annuler(): void {
     this.navigationService.navigateToPageConfigList();
@@ -218,6 +201,55 @@ export class AmlPageConfigComponent implements OnInit {
 
   closePreviewDialog(): void {
     this.showDialogPreview = false;
+  }
+
+  // Initialize form when creating component or loading data
+  private initializeFormWithAmlPageConfig(pageConfig: AmlPageConfig): void {
+    this.pageForm = this.fb.group({
+      pageName: [pageConfig.pageName || '', Validators.required],
+      pageTitle: [pageConfig.pageTitle || '', Validators.required],
+      pageDescription: [pageConfig.pageDescription || ''],
+      pageOrder: [pageConfig.order || 0],
+    });
+    this.inputTypesConfigs = pageConfig.formConfig;
+
+  }
+
+
+
+  // add or update new field config
+  openInputFieldConfigDialog(): void {
+    this.showDialogNewInputTypeConfig = true;
+  }
+
+  closeInputFieldConfigDialog(): void {
+    this.selectedTypeConfig = null ;
+    this.showDialogNewInputTypeConfig = false;
+  }
+
+   addInputTypeConfig(inputTypeConfig: any): void {
+
+    inputTypeConfig = inputTypeConfig as InputTypeConfig;
+    // check if the field already exists (update) or is new (add)
+    if (this.isInputTypeConfigExist(inputTypeConfig.name)) {
+      this.showAlertFiledConfigExists(inputTypeConfig.name);
+    } else {
+      this.inputTypesConfigs.push(inputTypeConfig);
+      this.pageConfig.formConfig = [...this.inputTypesConfigs];
+    }
+    this.closeInputFieldConfigDialog() ;
+  }
+
+  updateInputTypeConfig(updatedConfig: InputTypeConfig): void {
+    if (!this.selectedTypeConfig) {
+      return;
+    }
+    const index = this.inputTypesConfigs.findIndex(config => config.name === this.selectedTypeConfig!.name);
+    if (index !== -1) {
+      this.inputTypesConfigs[index] = updatedConfig;
+      this.pageConfig.formConfig = [...this.inputTypesConfigs];
+    }
+    this.closeInputFieldConfigDialog();
   }
 
 

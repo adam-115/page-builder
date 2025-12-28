@@ -83,7 +83,7 @@
                 Visualiser
               </button>
 
-              <button (click)="openFieldDialog(undefined)"
+              <button (click)="openInputFieldConfigDialog()"
                 class="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-bold text-sm shadow-sm">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -110,7 +110,7 @@
                   </div>
                 </div>
                 <div class="flex items-center space-x-2">
-                  <button (click)="openFieldDialog(inputTypeConfig)"
+                    <button (click)="openInputFieldDialogForEdit(inputTypeConfig)"
                     class="p-2 text-gray-400 hover:text-indigo-600 hover:bg-white rounded-lg transition"
                     title="Modifier">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -154,113 +154,6 @@
               </div>
             </div>
             }
-
-
-
-            <!-- <div class="bg-white rounded-xl border border-gray-200 shadow-sm hover:border-indigo-300 transition group">
-              <div class="p-4 flex items-center justify-between bg-gray-50 border-b border-gray-100 rounded-t-xl">
-                <div class="flex items-center space-x-3">
-                  <span
-                    class="flex items-center justify-center w-8 h-8 rounded bg-indigo-100 text-indigo-600 font-bold text-xs uppercase">
-                    SEL
-                  </span>
-                  <div>
-                    <h4 class="font-bold text-gray-900">pays_residence</h4>
-                    <p class="text-xs text-gray-500">Ordre: 1 | Facteur: x5</p>
-                  </div>
-                </div>
-                <div class="flex items-center space-x-2">
-                  <button class="p-2 text-gray-400 hover:text-indigo-600 hover:bg-white rounded-lg transition"
-                    title="Modifier">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
-                      </path>
-                    </svg>
-                  </button>
-                  <button class="p-2 text-gray-400 hover:text-red-600 hover:bg-white rounded-lg transition"
-                    title="Supprimer">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                      </path>
-                    </svg>
-                  </button>
-                  <div class="cursor-move p-2 text-gray-300">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M7 10h10V8H7v2zm0 6h10v-2H7v2z"></path>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-              <div class="p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="md:col-span-2">
-                  <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 text-indigo-500">Label
-                    Message
-                  </p>
-                  <p class="text-sm text-gray-700 font-medium italic">"Dans quel pays résidez-vous fiscalement ?"</p>
-                </div>
-                <div>
-                  <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 text-indigo-500">Options
-                    Configurer</p>
-                  <div class="flex items-center">
-                    <span
-                      class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                      3 options (Score 0-10)
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div> -->
-
-            <!-- <div class="bg-white rounded-xl border border-gray-200 shadow-sm hover:border-indigo-300 transition group">
-              <div class="p-4 flex items-center justify-between bg-gray-50 border-b border-gray-100 rounded-t-xl">
-                <div class="flex items-center space-x-3">
-                  <span
-                    class="flex items-center justify-center w-8 h-8 rounded bg-amber-100 text-amber-600 font-bold text-xs uppercase">
-                    UPL
-                  </span>
-                  <div>
-                    <h4 class="font-bold text-gray-900">justificatif_domicile</h4>
-                    <p class="text-xs text-gray-500">Ordre: 2 | Facteur: x15</p>
-                  </div>
-                </div>
-                <div class="flex items-center space-x-2">
-                  <button class="p-2 text-gray-400 hover:text-indigo-600 hover:bg-white rounded-lg transition">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
-                      </path>
-                    </svg>
-                  </button>
-                  <button class="p-2 text-gray-400 hover:text-red-600 hover:bg-white rounded-lg transition">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                      </path>
-                    </svg>
-                  </button>
-                  <div class="cursor-move p-2 text-gray-300">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M7 10h10V8H7v2zm0 6h10v-2H7v2z"></path>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-              <div class="p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="md:col-span-2">
-                  <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 text-amber-500">Label Message
-                  </p>
-                  <p class="text-sm text-gray-700 font-medium italic">"Uploadez un document de moins de 3 mois."</p>
-                </div>
-                <div>
-                  <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 text-amber-500">Score Défaut
-                    (Upload)</p>
-                  <p class="text-sm font-bold text-red-600">8 / 10</p>
-                </div>
-              </div>
-            </div> -->
-
           </div>
         </div>
       </div>
@@ -271,11 +164,16 @@
     </form>
   </div>
 </div>
-<app-aml-field-edit [showDialog]="showDilogNouveauChamp" (close)="closeFieldDialog()" (save)="addOrUpdateField($event)"
+
+
+@if (showDialogNewInputTypeConfig) {
+  <app-aml-field-edit (save)="addInputTypeConfig($event)" (update)="updateInputTypeConfig($event)"   (close)="closeInputFieldConfigDialog()" [selectedInputTypeConfig]="selectedTypeConfig" ></app-aml-field-edit>
+}
+<!-- <app-aml-field-edit [showDialog]="showDilogNouveauChamp" (close)="closeFieldDialog()" (save)="addOrUpdateField($event)"
   [selectedInputTypeConfig]="selectedTypeConfig" (update)="updateInputTypeConfig($event)"></app-aml-field-edit>
 
 <app-alert-component [isOpen]="showdialogAlert" [alertConfig]="alertConfig" (confirmed)="confirmAlert($event)"
   (cancelled)="cancelAlert($event)"></app-alert-component>
 
 <app-aml-page-view [isOpen]="showDialogPreview" [amlPageConfig]="amlPagePreviewConfig"
-  (close)="closePreviewDialog()"></app-aml-page-view>
+  (close)="closePreviewDialog()"></app-aml-page-view> -->
