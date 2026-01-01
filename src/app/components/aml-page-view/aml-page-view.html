@@ -1,74 +1,90 @@
 <div *ngIf="isOpen"
-     class="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm transition-all">
+  class="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm transition-all">
 
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-300">
+  <div
+    class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-300">
 
-        <div class="bg-indigo-600 px-6 py-4 flex justify-between items-center text-white">
-            <div class="flex items-center space-x-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                <span class="font-bold uppercase tracking-wider text-sm">Mode Prévisualisation</span>
+    <div class="bg-indigo-600 px-6 py-4 flex justify-between items-center text-white">
+      <div class="flex items-center space-x-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
+        <span class="font-bold uppercase tracking-wider text-sm">Mode Prévisualisation</span>
+      </div>
+      <button (click)="close.emit()" class="hover:bg-indigo-500 p-1 rounded-full transition">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="flex-1 overflow-y-auto p-8 bg-gray-50">
+
+      <div class="mb-8 border-b pb-6">
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-2 italic">
+          {{ amlPageConfig?.pageTitle || 'Titre de la page' }}
+        </h1>
+        <p class="text-gray-600 leading-relaxed">
+          {{ amlPageConfig?.pageDescription || 'Aucune description fournie.' }}
+        </p>
+      </div>
+
+      <div class="space-y-8">
+        <div *ngFor="let config of amlPageConfig?.formConfig" class="animate-in slide-in-from-bottom-2 duration-500">
+
+          <label class="block text-sm font-bold text-gray-800 mb-3">
+            {{ config.labelMessage }}
+            <span *ngIf="config.required" class="text-red-500 ml-1">*</span>
+          </label>
+
+          <div *ngIf="config.type === 'select'">
+            <select
+              class="w-full bg-white border border-gray-300 rounded-xl p-3 shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none transition">
+              <option value="">{{ config.placeholder || 'Sélectionnez une option...' }}</option>
+              <option *ngFor="let opt of config.options" [value]="opt.value">{{ opt.value }}</option>
+            </select>
+          </div>
+
+          <div *ngIf="config.type === 'radio'"
+            [ngClass]="config.optionsLayout === 'inline' ? 'flex flex-wrap gap-6' : 'space-y-3'">
+            <div *ngFor="let opt of config.options" class="flex items-center group cursor-pointer">
+              <div
+                class="relative flex items-center justify-center w-5 h-5 border-2 border-gray-300 rounded-full group-hover:border-indigo-500">
+                <div class="w-2.5 h-2.5 bg-indigo-600 rounded-full opacity-0 group-hover:opacity-20"></div>
+              </div>
+              <span class="ml-3 text-sm text-gray-700 font-medium">{{ opt.value }}</span>
             </div>
-            <button (click)="close.emit()" class="hover:bg-indigo-500 p-1 rounded-full transition">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
+          </div>
+
+          <div *ngIf="config.type === 'checkbox'"
+            [ngClass]="config.optionsLayout === 'inline' ? 'flex flex-wrap gap-6' : 'space-y-3'">
+            <div *ngFor="let opt of config.options" class="flex items-center group cursor-pointer">
+              <div class="w-5 h-5 border-2 border-gray-300 rounded-lg group-hover:border-indigo-500 transition-colors">
+              </div>
+              <span class="ml-3 text-sm text-gray-700 font-medium">{{ opt.value }}</span>
+            </div>
+          </div>
+
+          <div *ngIf="config.type === 'uploadFile'">
+            <div
+              class="border-2 border-dashed border-gray-300 rounded-2xl p-6 flex flex-col items-center justify-center bg-white hover:border-indigo-400 transition group">
+              <svg class="w-10 h-10 text-gray-400 group-hover:text-indigo-500 mb-2 transition" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+              <span class="text-sm font-semibold text-gray-500">{{ config.placeholder || 'Cliquez pour uploader un
+                document' }}</span>
+            </div>
+          </div>
+
         </div>
+      </div>
+    </div>
 
-        <div class="flex-1 overflow-y-auto p-8 bg-gray-50">
-
-            <div class="mb-8 border-b pb-6">
-                <h1 class="text-3xl font-extrabold text-gray-900 mb-2 italic">
-                    {{ amlPageConfig?.pageTitle || 'Titre de la page' }}
-                </h1>
-                <p class="text-gray-600 leading-relaxed">
-                    {{ amlPageConfig?.pageDescription || 'Aucune description fournie.' }}
-                </p>
-            </div>
-
-            <div class="space-y-8">
-                <div *ngFor="let config of amlPageConfig?.formConfig" class="animate-in slide-in-from-bottom-2 duration-500">
-
-                    <label class="block text-sm font-bold text-gray-800 mb-3">
-                        {{ config.labelMessage }}
-                        <span *ngIf="config.required" class="text-red-500 ml-1">*</span>
-                    </label>
-
-                    <div *ngIf="config.type === 'select'">
-                        <select class="w-full bg-white border border-gray-300 rounded-xl p-3 shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none transition">
-                            <option value="">{{ config.placeholder || 'Sélectionnez une option...' }}</option>
-                            <option *ngFor="let opt of config.options" [value]="opt.value">{{ opt.value }}</option>
-                        </select>
-                    </div>
-
-                    <div *ngIf="config.type === 'radio'"
-                         [ngClass]="config.optionsLayout === 'inline' ? 'flex flex-wrap gap-6' : 'space-y-3'">
-                        <div *ngFor="let opt of config.options" class="flex items-center group cursor-pointer">
-                            <div class="relative flex items-center justify-center w-5 h-5 border-2 border-gray-300 rounded-full group-hover:border-indigo-500">
-                                <div class="w-2.5 h-2.5 bg-indigo-600 rounded-full opacity-0 group-hover:opacity-20"></div>
-                            </div>
-                            <span class="ml-3 text-sm text-gray-700 font-medium">{{ opt.value }}</span>
-                        </div>
-                    </div>
-
-                    <div *ngIf="config.type === 'checkbox'"
-                         [ngClass]="config.optionsLayout === 'inline' ? 'flex flex-wrap gap-6' : 'space-y-3'">
-                        <div *ngFor="let opt of config.options" class="flex items-center group cursor-pointer">
-                            <div class="w-5 h-5 border-2 border-gray-300 rounded-lg group-hover:border-indigo-500 transition-colors"></div>
-                            <span class="ml-3 text-sm text-gray-700 font-medium">{{ opt.value }}</span>
-                        </div>
-                    </div>
-
-                    <div *ngIf="config.type === 'uploadFile'">
-                        <div class="border-2 border-dashed border-gray-300 rounded-2xl p-6 flex flex-col items-center justify-center bg-white hover:border-indigo-400 transition group">
-                            <svg class="w-10 h-10 text-gray-400 group-hover:text-indigo-500 mb-2 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
-                            <span class="text-sm font-semibold text-gray-500">{{ config.placeholder || 'Cliquez pour uploader un document' }}</span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <!-- <div class="p-6 bg-white border-t flex flex-col sm:flex-row-reverse gap-3">
+    <!-- <div class="p-6 bg-white border-t flex flex-col sm:flex-row-reverse gap-3">
             <button (click)="handlePreviewSubmit()"
                     class="w-full sm:w-auto px-10 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 shadow-lg shadow-indigo-100 transition active:scale-95">
                 Confirmer
@@ -79,5 +95,5 @@
             </button>
         </div> -->
 
-    </div>
+  </div>
 </div>

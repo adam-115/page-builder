@@ -2,17 +2,16 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { AlertConfig, AmlPageConfig, InputTypeConfig } from '../../../appTypes';
-import { NotificationService } from '../../services/notification-service';
-import { AlertComponent } from "../alert-component/alert-component";
+import { AmlPageConfig } from '../../../appTypes';
+import { AlertService } from '../../services/alert-service';
 import { AmlFieldEdit } from "../aml-field-edit/aml-field-edit";
-import { AmlPageView } from "../aml-page-view/aml-page-view";
+import { InputTypeConfig } from './../../../appTypes';
 import { NavigationService } from './../../services/navigation-service';
 import { PageConfigService } from './../../services/page-config-service';
 
 @Component({
   selector: 'app-aml-page-config-component',
-  imports: [CommonModule, ReactiveFormsModule, AmlFieldEdit, AlertComponent, AmlPageView],
+  imports: [CommonModule, ReactiveFormsModule, AmlFieldEdit],
   templateUrl: './aml-page-config-component.html',
   styleUrl: './aml-page-config-component.css',
 })
@@ -20,8 +19,8 @@ export class AmlPageConfigComponent implements OnInit {
 
   // service injection
   pageConfigService = inject(PageConfigService);
-  notificationService = inject(NotificationService);
   navigationService = inject(NavigationService);
+  alertService = inject(AlertService);
   activatedRoute = inject(ActivatedRoute);
 
   inputTypesConfigs: InputTypeConfig[] = [];
@@ -29,21 +28,15 @@ export class AmlPageConfigComponent implements OnInit {
   // if is on edit mode
   isEditeMode = false;
   editedPageConfig: AmlPageConfig | null = null;
-  selectedTypeConfig: InputTypeConfig | null = null;
+  selectedInputTypeConfig: InputTypeConfig | null = null;
   showDialogNewInputTypeConfig = false;
 
-  showdialogAlert: boolean = false;
   showDialogPreview: boolean = false;
 
 
   amlPagePreviewConfig: AmlPageConfig | null = null;
   pageForm: FormGroup = new FormGroup({});
-  alertConfig: AlertConfig = {
-    type: 'error',
-    title: 'Confirmation',
-    message: 'Êtes-vous sûr de vouloir effectuer cette action ?',
-    confirmText: 'OK'
-  };
+
   // Initialisation de l'objet selon votre interface AmlPageConfig
   pageConfig: AmlPageConfig = {
     pageName: '',
@@ -63,13 +56,13 @@ export class AmlPageConfigComponent implements OnInit {
 
   // load config to update
   private isItUpdateMode(): void {
+
     this.activatedRoute.paramMap.subscribe(params => {
       const id = params.get("id");
       this.isEditeMode = !!id;
       if (this.isEditeMode) {
         this.pageConfigService.findById(id).subscribe(data => {
           this.editedPageConfig = data;
-          console.log(this.editedPageConfig);
           this.initializeFormWithAmlPageConfig(this.editedPageConfig);
         })
       }
@@ -87,75 +80,70 @@ export class AmlPageConfigComponent implements OnInit {
   }
 
 
-  openInputFieldDialogForEdit(inputTypeConfig:InputTypeConfig):void{
-    this.selectedTypeConfig = inputTypeConfig ;
-    this.showDialogNewInputTypeConfig = true ;
+  openInputFieldDialogForEdit(inputTypeConfig: InputTypeConfig): void {
+    this.selectedInputTypeConfig = inputTypeConfig;
+    this.showDialogNewInputTypeConfig = true;
   }
-
-
-
-  // SUPPRIMER UN CHAMP
-  // removeField(index: number): void {
-  //   if (confirm('Voulez-vous vraiment supprimer ce champ ?')) {
-  //     this.pageConfig.formConfig.splice(index, 1);
-  //     // Réorganiser les ordres d'affichage après suppression
-  //     this.pageConfig.formConfig.forEach((f, i) => f.displayOrer = i + 1);
-  //   }
-  // }
 
   // SAUVEGARDE GLOBALE DE LA PAGE
-  savePage(): void {
+  private saveNewPage(): void {
     if (this.pageForm.valid && this.inputTypesConfigs.length > 0) {
       this.pageConfig = this.convertFormToAmlPageConfig();
-      console.log(this.pageConfig);
-      this.pageConfigService.create(this.pageConfig).subscribe({
-        next: (response) => {
-          this.notificationService.info("c est un message test ");
-        },
-        error: (err) => {
-          this.notificationService.error("message d erreur ");
+
+      this.alertService.confirmMessage("Ajout Nouvelle Page ", "Voullez-vous ajouter la page", 'question').then(result => {
+        if (result) {
+          this.pageConfigService.create(this.pageConfig).subscribe({
+            next: (response) => {
+              this.alertService.displayMessage("nouvelle page ", "la nouvelle page est bien ajouter ", 'success');
+              this.navigationService.navigateToPageConfigList();
+            },
+            error: (err) => {
+              this.alertService.displayMessage("Error... ", "Error ajout de la page merci de contacter le support ", 'error');
+            }
+          });
         }
-      });
+      })
     }
   }
 
-  confirmAlert(id: number): void {
-    if (id === 2) { // 2 for delete confirmation
-      this.deleteInputTypeConfig(this.selectedTypeConfig?.name || '');
-      this.showdialogAlert = false;
+  private editNewPage(): void {
+    if (this.pageForm.valid && this.inputTypesConfigs.length > 0) {
+      this.pageConfig = this.convertFormToAmlPageConfig();
+      this.pageConfig.id = this.editedPageConfig?.id;
+
+      this.alertService.confirmMessage("Updtae Page ", "Voullez-vous mettre a jour la page " + this.pageConfig.pageName, 'question').then(result => {
+        if (result) {
+          this.pageConfigService.update(this.editedPageConfig?.id, this.pageConfig).subscribe({
+            next: (response) => {
+              this.alertService.displayMessage("Page mis  a jour  ", "la nouvelle page est bien ajouter ", 'success');
+              this.navigationService.navigateToPageConfigList();
+            },
+            error: (err) => {
+              this.alertService.displayMessage("Error... ", "Error de la mise a jour de la page, merci de contacter le support ", 'error');
+            }
+          });
+        }
+      })
     }
   }
 
-  cancelAlert(id: number): void {
-    // Logique à exécuter lorsque l'utilisateur annule l'alerte
-    this.showdialogAlert = false;
-  }
+
+
 
   private isInputTypeConfigExist(name: string): boolean {
     return this.inputTypesConfigs.some(config => config.name === name);
   }
 
-  private showAlertFiledConfigExists(name: string): void {
-    this.alertConfig = {
-      type: 'warning',
-      title: 'Champ existant',
-      message: 'Un champ avec le nom "' + name + '" existe déjà. Veuillez choisir un nom unique.',
-      confirmText: 'OK'
-    };
-    this.showdialogAlert = true;
-  }
 
-  dispalyDeleteConfirmationDialog(inputTypeConfig: InputTypeConfig): void {
-    this.selectedTypeConfig = inputTypeConfig;
-    this.alertConfig = {
-      id: 2,// 2 for delete confirmation
-      type: 'confirm',
-      title: 'Confirmation',
-      message: 'Êtes-vous sûr de vouloir supprimer ' + inputTypeConfig.name + ' ?',
-      confirmText: 'OK',
-      cancelText: 'Annuler'
-    };
-    this.showdialogAlert = true;
+
+  OnDeleteInputTypeConfigDialo(toDeleteInputTypeConfig: InputTypeConfig): void {
+    this.alertService.confirmMessage("suppression Input type config ", "voullez-vous supprimez " + toDeleteInputTypeConfig.name, 'warning').then(result => {
+      if (result) {
+        this.deleteInputTypeConfig(toDeleteInputTypeConfig.name);
+        this.alertService.displayMessage("New InputType Config", "the input with name " + toDeleteInputTypeConfig.name + " is deleted .", "success")
+      }
+    })
+
   }
 
 
@@ -171,7 +159,11 @@ export class AmlPageConfigComponent implements OnInit {
 
 
   Onsubmit(): void {
-    this.savePage();
+    if (this.isEditeMode) {
+      this.editNewPage();
+    } else {
+      this.saveNewPage();
+    }
   }
 
 
@@ -223,35 +215,34 @@ export class AmlPageConfigComponent implements OnInit {
   }
 
   closeInputFieldConfigDialog(): void {
-    this.selectedTypeConfig = null ;
+    this.selectedInputTypeConfig = null;
     this.showDialogNewInputTypeConfig = false;
   }
 
-   addInputTypeConfig(inputTypeConfig: any): void {
+  addInputTypeConfig(inputTypeConfig: any): void {
 
     inputTypeConfig = inputTypeConfig as InputTypeConfig;
     // check if the field already exists (update) or is new (add)
     if (this.isInputTypeConfigExist(inputTypeConfig.name)) {
-      this.showAlertFiledConfigExists(inputTypeConfig.name);
+      this.alertService.displayMessage("Ajout Input type config ", "input type config existe deja avec le meme nom : " + inputTypeConfig.name, "error");
     } else {
       this.inputTypesConfigs.push(inputTypeConfig);
       this.pageConfig.formConfig = [...this.inputTypesConfigs];
     }
-    this.closeInputFieldConfigDialog() ;
+    this.closeInputFieldConfigDialog();
   }
 
   updateInputTypeConfig(updatedConfig: InputTypeConfig): void {
-    if (!this.selectedTypeConfig) {
+    if (!this.selectedInputTypeConfig) {
       return;
     }
-    const index = this.inputTypesConfigs.findIndex(config => config.name === this.selectedTypeConfig!.name);
+    const index = this.inputTypesConfigs.findIndex(config => config.name === this.selectedInputTypeConfig!.name);
     if (index !== -1) {
       this.inputTypesConfigs[index] = updatedConfig;
       this.pageConfig.formConfig = [...this.inputTypesConfigs];
     }
     this.closeInputFieldConfigDialog();
   }
-
 
 
 }

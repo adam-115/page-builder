@@ -157,7 +157,6 @@ export class AmlFieldEdit implements OnInit {
       }));
     }
     if (this.selectedInputTypeConfig) {
-      alert("send update");
       this.update.emit(configPayload);
     } else {
       this.save.emit(configPayload);

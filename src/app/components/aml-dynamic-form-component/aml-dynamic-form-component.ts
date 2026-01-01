@@ -1,7 +1,9 @@
-import { Component, OnInit, Input, input } from '@angular/core';
-import { InputTypeConfig, Option } from '../../../appTypes';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { AmlPageConfig, InputTypeConfig, Option } from '../../../appTypes';
+import { PageConfigService } from './../../services/page-config-service';
 
 // Interface pour le suivi du score par champ (simplifiée pour l'affichage)
 interface FieldScore {
@@ -19,10 +21,17 @@ interface FieldScore {
 })
 export class AmlDynamicFormComponent implements OnInit {
 
-  // Simulation de la configuration reçue du backend, utilisant votre structure InputTypeConfig
-  // Cette structure est celle que vous chargez.
+  activatedRoute = inject(ActivatedRoute);
+  pageConfigService = inject(PageConfigService);
+  fb = inject(FormBuilder);
+  selectedPageConfig: AmlPageConfig | null = null;
+  dynamicForm: FormGroup;
+  totalRiskScore: number = 0;
+  fieldScores: FieldScore[] = [];
+
+
   @Input()
-  amlConfig: InputTypeConfig[] = [
+  InpuTypeConfigs: InputTypeConfig[] = [
     {
       id: 1, type: 'uploadFile', name: 'id_document', labelMessage: 'Veuillez télécharger votre pièce d\'identité.', facteur: 15, score: 55, required: false,
       options: [
@@ -54,22 +63,39 @@ export class AmlDynamicFormComponent implements OnInit {
 
   ];
 
-  dynamicForm: FormGroup;
-  totalRiskScore: number = 0;
-  fieldScores: FieldScore[] = [];
 
-  constructor(private fb: FormBuilder) {
+
+  constructor() {
     this.dynamicForm = this.fb.group({});
   }
 
   ngOnInit(): void {
     this.buildDynamicForm();
     this.subscribeToFormChanges();
+    this.loadPageConfig();
   }
 
+  private loadPageConfig(): void {
+    this.activatedRoute.paramMap.subscribe(params => {
+      const id = params.get("id");
+      if (id) {
+        this.pageConfigService.findById(id).subscribe(data => {
+          this.selectedPageConfig = data;
+          // alert(JSON.stringify(this.selectedPageConfig));
+          console.log('data loaded ' + this.selectedPageConfig);
+          this.InpuTypeConfigs = this.selectedPageConfig.formConfig
+            // Reconstruire le formulaire dynamique avec la nouvelle configuration
+            // this.dynamicForm = this.fb.group({});
+            this.buildDynamicForm();
+          // this.subscribeToFormChanges();
+        })
+      }
+    });
+
+  }
   // Construction dynamique des FormControls
   private buildDynamicForm(): void {
-    this.amlConfig.forEach(config => {
+    this.InpuTypeConfigs.forEach(config => {
       const validators = config.required ? [Validators.required] : [];
 
       if (config.type === 'uploadFile') {
@@ -91,8 +117,6 @@ export class AmlDynamicFormComponent implements OnInit {
           validators
         ));
       }
-
-
     });
   }
 
@@ -107,7 +131,7 @@ export class AmlDynamicFormComponent implements OnInit {
 
   private calculateRiskScore2(): void {
     let score = 0;
-    this.amlConfig.forEach(config => {
+    this.InpuTypeConfigs.forEach(config => {
       // case input upload file
       if (config.type === 'uploadFile') {
         let fileName = this.dynamicForm.get(config.name)?.value;
@@ -149,7 +173,7 @@ export class AmlDynamicFormComponent implements OnInit {
 
   // Méthode utilitaire pour accéder à la configuration
   getFieldConfig(name: string): InputTypeConfig | undefined {
-    return this.amlConfig.find(c => c.name === name);
+    return this.InpuTypeConfigs.find(c => c.name === name);
   }
 
   // Gestion de l'upload (met le nom du fichier comme valeur du FormControl)

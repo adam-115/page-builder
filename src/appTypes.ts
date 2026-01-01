@@ -4,16 +4,7 @@ export interface User {
   email: string;
   password: string;
 }
-export interface PageConfig {
-  id: number | null,
-  gridNumberOfCols: number,
-  gridNumberOfRows: number,
-  gridRowHighInPX: number;
-  gridCustomStyle: string,
-  formElements: FormElement[],
-  order: number,
-  step: number,
-}
+
 
 // Define types for alignment options
 type HorizontalAlignment = 'start' | 'end' | 'center' | 'stretch';
@@ -54,6 +45,8 @@ export interface User {
 const SCORE_MIN = 0;
 const SCORE_MAX = 10;
 export type InputType = 'select' | 'checkbox' | 'radio' | 'uploadFile';
+
+export type IconType = "success" | "error" | "warning" | "info"|"question";
 
 
 // used for the check box

@@ -38,15 +38,15 @@ export class AmlPageListComponent implements OnInit {
     }
   }
 
-  // deletePage(id: number | null) {
-  //   alert("edit page "+id);
-  //   if (confirm('Êtes-vous sûr de vouloir supprimer cette page ?')) {
-  //     this.pages = this.pages.filter(p => p.id !== id);
-  //   }
-  // }
 
   createNewPage() {
     this.navigateService.navigateToNewPageConfig();
+  }
+
+  viewThepage(page: AmlPageConfig) {
+    if (page.id) {
+      this.navigateService.navigateToViewPageConfig(page.id);
+    }
   }
 
 

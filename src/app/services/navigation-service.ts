@@ -16,6 +16,8 @@ export class NavigationService {
   public static readonly PAGE_CONFIG_LIST = "page-config-list";
   public static readonly PAGE_CONFIG_CREATE = "page-config/create";
   public static readonly PAGE_CONFIG_EDIT = "page-config/edite/:id";
+  public static readonly PAGE_CONFIG_VIEW = "page-config/view/:id";
+
 
 
   public navigateToPageConfigList(): void {
@@ -31,6 +33,11 @@ export class NavigationService {
     let targetUrl = NavigationService.PAGE_CONFIG_EDIT.replace(":id", id.toString());
     this.router.navigate(['/', ...targetUrl.split("/")]);
 
+  }
+
+  public navigateToViewPageConfig(id: number): void {
+    let targetUrl = NavigationService.PAGE_CONFIG_VIEW.replace(":id", id.toString());
+    this.router.navigate(['/', ...targetUrl.split("/")]);
   }
 
 

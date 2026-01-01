@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AmlPageConfig, InputTypeConfig } from '../../../appTypes';
 import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AmlPageConfig } from '../../../appTypes';
 
 @Component({
   selector: 'app-aml-page-view',

@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { AmlDynamicFormComponent } from './components/aml-dynamic-form-component/aml-dynamic-form-component';
-import { AmlFormConfig } from './components/aml-form-config/aml-form-config';
 import { AmlPageConfigComponent } from './components/aml-page-config-component/aml-page-config-component';
 import { AmlPageListComponent } from './components/aml-page-list-component/aml-page-list-component';
 import { AmlPageView } from './components/aml-page-view/aml-page-view';
@@ -27,6 +26,11 @@ export const routes: Routes = [
   },
 
   {
+    path: NavigationService.PAGE_CONFIG_VIEW,
+    component: AmlDynamicFormComponent
+  },
+
+  {
     path: 'test',
     component: AmlDynamicFormComponent
   },
@@ -38,10 +42,7 @@ export const routes: Routes = [
     path: 'test3',
     component: AmlPageView
   },
-  {
-    path: "test4",
-    component: AmlFormConfig
-  }
+
 
 
 ];

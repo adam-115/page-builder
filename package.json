@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "mock:server": "json-server --watch db.json",
-   "start:mock": "concurrently \"npm run mock:server\" \"ng serve\""
+    "start:mock": "concurrently \"npm run mock:server\" \"ng serve\""
   },
   "prettier": {
     "printWidth": 100,
@@ -33,6 +33,7 @@
     "@tailwindcss/postcss": "^4.1.17",
     "postcss": "^8.5.6",
     "rxjs": "~7.8.0",
+    "sweetalert2": "^11.26.17",
     "tailwindcss": "^4.1.17",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
