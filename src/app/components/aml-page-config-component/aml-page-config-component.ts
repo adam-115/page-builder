@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute } from '@angular/router';
 import { AmlPageConfig } from '../../../appTypes';
 import { AlertService } from '../../services/alert-service';
+import { UtilsService } from '../../services/utils-service';
 import { AmlFieldEdit } from "../aml-field-edit/aml-field-edit";
 import { InputTypeConfig } from './../../../appTypes';
 import { NavigationService } from './../../services/navigation-service';
@@ -22,6 +23,7 @@ export class AmlPageConfigComponent implements OnInit {
   navigationService = inject(NavigationService);
   alertService = inject(AlertService);
   activatedRoute = inject(ActivatedRoute);
+  utilsService = inject(UtilsService);
 
   inputTypesConfigs: InputTypeConfig[] = [];
 
@@ -89,7 +91,7 @@ export class AmlPageConfigComponent implements OnInit {
   private saveNewPage(): void {
     if (this.pageForm.valid && this.inputTypesConfigs.length > 0) {
       this.pageConfig = this.convertFormToAmlPageConfig();
-
+      this.generateIdsForMultipleOptions(this.pageConfig);
       this.alertService.confirmMessage("Ajout Nouvelle Page ", "Voullez-vous ajouter la page", 'question').then(result => {
         if (result) {
           this.pageConfigService.create(this.pageConfig).subscribe({
@@ -134,8 +136,18 @@ export class AmlPageConfigComponent implements OnInit {
     return this.inputTypesConfigs.some(config => config.name === name);
   }
 
-
-
+  private generateIdsForMultipleOptions(AmlPageConfig: AmlPageConfig) {
+    AmlPageConfig.formConfig.forEach(inputTypeConfig => {
+      inputTypeConfig.id = inputTypeConfig.id || this.utilsService.generateTimestampId();
+      if (inputTypeConfig.options && inputTypeConfig.options.length > 0) {
+        inputTypeConfig.options.forEach(option => {
+          if (!option.id) {
+            option.id = this.utilsService.generateTimestampId();
+          }
+        });
+      }
+    });
+  }
   OnDeleteInputTypeConfigDialo(toDeleteInputTypeConfig: InputTypeConfig): void {
     this.alertService.confirmMessage("suppression Input type config ", "voullez-vous supprimez " + toDeleteInputTypeConfig.name, 'warning').then(result => {
       if (result) {
@@ -170,7 +182,6 @@ export class AmlPageConfigComponent implements OnInit {
   // In your component class
   private convertFormToAmlPageConfig(): AmlPageConfig {
     const formValue = this.pageForm.getRawValue(); // Use getRawValue() to get all values including disabled controls
-
     const amlPageConfig: AmlPageConfig = {
       pageName: formValue.pageName,
       pageTitle: formValue.pageTitle,

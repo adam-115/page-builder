@@ -51,16 +51,16 @@ export type IconType = "success" | "error" | "warning" | "info"|"question";
 
 // used for the check box
 export interface Option {
-  id?: number;
+  id?: string;
   name?: string;
-  InputTypeConfigId?: number | null;
+  InputTypeConfigId?: number;
   value: string;
   score: number;
   order?: number;
 }
 
 export interface InputTypeConfig {
-  id?: number,
+  id?: string;
   type: InputType;
   name: string; // Added property for the form control name it must be unique
   score?:number;// used for upload
@@ -95,6 +95,13 @@ export interface AlertConfig {
   cancelText?: string;
 }
 
+export interface AmlPageConfigValue {
+  id?:number,
+  amlPageConfigID?: number;
+  InputTypeConfigID: string;
+  value: string;
+}
+
 export type NotificationType = 'info' | 'success' | 'warning' | 'error';
 
 export interface Notification {
@@ -103,6 +110,8 @@ export interface Notification {
   message: string;
   duration: number;
 }
+
+
 
 
 

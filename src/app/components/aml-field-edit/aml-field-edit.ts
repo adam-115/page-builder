@@ -225,7 +225,7 @@ export class AmlFieldEdit implements OnInit {
     return this.amlForm.get('options') as FormArray;
   }
 
-  addOption(value: string = '', score: number = 0, id: number | null = null): void {
+   addOption(value: string = '', score: number = 0, id: string | null = null): void {
     const optionGroup = this.fb.group({
       id: [id],
       value: [value, Validators.required],

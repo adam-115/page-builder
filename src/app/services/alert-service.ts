@@ -27,8 +27,9 @@ export class AlertService {
     Swal.fire({
       titleText:title,
       position: "top-end",
+      text: message,
       icon: icon,
-      title: message,
+      title: title,
       showConfirmButton: false,
       timer: 1800,
       showCloseButton: true,
