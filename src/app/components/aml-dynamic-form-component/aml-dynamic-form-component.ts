@@ -1,11 +1,11 @@
+import { AmlPageConfigResultService } from './../../services/aml-page-config-result-service';
 import { AlertService } from './../../services/alert-service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AmlPageConfigValue, InputTypeConfig, Option } from '../../../appTypes';
-import { AmlPageConfigValueService } from '../../services/aml-page-config-value-service';
-import { AmlPageConfig } from './../../../appTypes';
+import { AmlPageConfig, AmlPageConfigResult } from './../../../appTypes';
 import { PageConfigService } from './../../services/page-config-service';
 
 // Interface pour le suivi du score par champ (simplifiée pour l'affichage)
@@ -26,7 +26,7 @@ export class AmlDynamicFormComponent implements OnInit {
 
   activatedRoute = inject(ActivatedRoute);
   pageConfigService = inject(PageConfigService);
-  amlPageConfigValueService = inject(AmlPageConfigValueService);
+  amlPageConfigResultService = inject(AmlPageConfigResultService);
   alertService = inject(AlertService);
   fb = inject(FormBuilder);
   selectedPageConfig: AmlPageConfig | null = null;
@@ -52,7 +52,6 @@ export class AmlDynamicFormComponent implements OnInit {
       if (id) {
         this.pageConfigService.findById(id).subscribe(data => {
           this.selectedPageConfig = data;
-          console.log('data loaded ' + this.selectedPageConfig);
           this.InpuTypeConfigs = this.selectedPageConfig.formConfig;
           // Reconstruire le formulaire dynamique avec la nouvelle configuration
           this.buildDynamicForm();
@@ -178,17 +177,16 @@ export class AmlDynamicFormComponent implements OnInit {
   private saveFormValues(): void {
     let error = false;
     //TODO add efter params to identify the user who submit the form
-    const amlPageConfigValues = this.convertFomValueToAmlPageConfigValues();
-    amlPageConfigValues.forEach(value => {
-      this.amlPageConfigValueService.create(value).subscribe({
-        next: (response) => {
-          // alert('Formulaire soumis avec succès !');
-          //TDOO afficher un message de succès et route to the correct page
-        }, error: (err) => {
-          error = true;
-        }
-      });
+    const amlPageConfigResult = this.convertFomValueToAmlPageConfigValues();
+    this.amlPageConfigResultService.create(amlPageConfigResult).subscribe({
+      next: (response) => {
+        this.alertService.displayMessage("Succès", "Le formulaire a été soumis avec succès !", 'success');
+      },
+      error: (err) => {
+        error = true;
+      }
     });
+
     if (error) {
       this.alertService.displayMessage("error", "error d envoie du formulaire , contacter le support  !", 'error');
     }
@@ -226,11 +224,8 @@ export class AmlDynamicFormComponent implements OnInit {
   }
 
 
-  private convertFomValueToAmlPageConfigValues(): AmlPageConfigValue[] {
+  private convertFomValueToAmlPageConfigValues(): AmlPageConfigResult {
     const amlPageConfigValues: AmlPageConfigValue[] = [];
-    console.log("the values of the dynamic form ****************");
-    console.log(this.dynamicForm.value);
-
     this.InpuTypeConfigs.forEach(config => {
       if (config.type === 'checkbox') {
         const subFormGroup = this.dynamicForm.get(config.name);
@@ -264,9 +259,19 @@ export class AmlDynamicFormComponent implements OnInit {
         }
       }
     });
-    console.log("aml page config ***************  result ");
-    console.log(amlPageConfigValues);
-    return amlPageConfigValues;
+
+
+    // risklevel tobe calculated and stored in AmlPageConfigResult afterward depending on the totalRiskScore and user config
+
+    let amlPageConfigResult: AmlPageConfigResult = {
+      amlPageConfigID: this.selectedPageConfig?.id,
+      totalScore: this.totalRiskScore,
+      AmlPageConfigValues: amlPageConfigValues,
+
+    }
+
+
+    return amlPageConfigResult;
   }
 
 }

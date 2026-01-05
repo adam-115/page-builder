@@ -17,6 +17,7 @@ export class NavigationService {
   public static readonly PAGE_CONFIG_CREATE = "page-config/create";
   public static readonly PAGE_CONFIG_EDIT = "page-config/edite/:id";
   public static readonly PAGE_CONFIG_VIEW = "page-config/view/:id";
+  public static readonly PAGE_RESULT_VIEW = "page-result/view/:id";
 
 
 

@@ -46,7 +46,7 @@ const SCORE_MIN = 0;
 const SCORE_MAX = 10;
 export type InputType = 'select' | 'checkbox' | 'radio' | 'uploadFile';
 
-export type IconType = "success" | "error" | "warning" | "info"|"question";
+export type IconType = "success" | "error" | "warning" | "info" | "question";
 
 
 // used for the check box
@@ -63,7 +63,7 @@ export interface InputTypeConfig {
   id?: string;
   type: InputType;
   name: string; // Added property for the form control name it must be unique
-  score?:number;// used for upload
+  score?: number;// used for upload
   facteur: number,
   required: boolean;
   labelMessage: string;
@@ -77,7 +77,7 @@ export interface InputTypeConfig {
 }
 
 export interface AmlPageConfig {
-  id?: number ,
+  id?: number,
   pageName: string,
   pageTitle: string,
   pageDescription: string,
@@ -96,10 +96,20 @@ export interface AlertConfig {
 }
 
 export interface AmlPageConfigValue {
-  id?:number,
+  id?: number,
   amlPageConfigID?: number;
   InputTypeConfigID: string;
   value: string;
+}
+
+// each validation result for a field
+export interface AmlPageConfigResult {
+  id?: number;
+  amlPageConfigID?: number;
+  totalScore?: number;
+  riskLevel?: 'Faible' | 'Modéré' | 'Élevé';
+  AmlPageConfigValues?: AmlPageConfigValue[];
+
 }
 
 export type NotificationType = 'info' | 'success' | 'warning' | 'error';

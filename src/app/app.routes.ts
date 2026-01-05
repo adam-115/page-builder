@@ -3,7 +3,7 @@ import { AmlDynamicFormComponent } from './components/aml-dynamic-form-component
 import { AmlPageConfigComponent } from './components/aml-page-config-component/aml-page-config-component';
 import { AmlPageListComponent } from './components/aml-page-list-component/aml-page-list-component';
 import { AmlPageView } from './components/aml-page-view/aml-page-view';
-import { Test } from './components/test/test';
+import { AmlResultPageComponent } from './components/aml-result-page.component/aml-result-page.component';
 import { NavigationService } from './services/navigation-service';
 
 export const routes: Routes = [
@@ -29,6 +29,10 @@ export const routes: Routes = [
     path: NavigationService.PAGE_CONFIG_VIEW,
     component: AmlDynamicFormComponent
   },
+  {
+    path: NavigationService.PAGE_RESULT_VIEW,
+    component: AmlResultPageComponent
+  },
 
   {
     path: 'test',
@@ -36,7 +40,7 @@ export const routes: Routes = [
   },
   {
     path: 'test2',
-    component: Test
+    component: AmlResultPageComponent
   },
   {
     path: 'test3',

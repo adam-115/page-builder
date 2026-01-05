@@ -1819,48 +1819,48 @@
       ]
     }
   ],
-  "AmlPageConfigValue": [
+  "AmlPageConfigResult": [
     {
-      "id": "7564",
+      "id": "2390",
       "amlPageConfigID": "6d8f",
-      "InputTypeConfigID": "mjztc3iy-e5r2pjq",
-      "value": "Afrique du Sud"
-    },
-    {
-      "id": "2b28",
-      "amlPageConfigID": "6d8f",
-      "InputTypeConfigID": "mjztc3iy-aqm3kgm",
-      "value": ">000"
-    },
-    {
-      "id": "f3f8",
-      "amlPageConfigID": "6d8f",
-      "InputTypeConfigID": "mjztc3iy-aqm3kgm",
-      "value": ">1000"
-    },
-    {
-      "id": "3def",
-      "amlPageConfigID": "6d8f",
-      "InputTypeConfigID": "mjztc3iy-aqm3kgm",
-      "value": ">10000"
-    },
-    {
-      "id": "4e09",
-      "amlPageConfigID": "6d8f",
-      "InputTypeConfigID": "mjztc3iy-e48kjjj",
-      "value": "Oui"
-    },
-    {
-      "id": "5033",
-      "amlPageConfigID": "6d8f",
-      "InputTypeConfigID": "mjztc3iy-68i05zn",
-      "value": "pays origine de transaction "
-    },
-    {
-      "id": "1fc8",
-      "amlPageConfigID": "6d8f",
-      "InputTypeConfigID": "mjztc3iy-qg97is6",
-      "value": "countries - Copie.csv"
+      "totalScore": 21,
+      "AmlPageConfigValues": [
+        {
+          "amlPageConfigID": "6d8f",
+          "InputTypeConfigID": "mjztc3iy-e5r2pjq",
+          "value": "Albanie"
+        },
+        {
+          "amlPageConfigID": "6d8f",
+          "InputTypeConfigID": "mjztc3iy-aqm3kgm",
+          "value": ">000"
+        },
+        {
+          "amlPageConfigID": "6d8f",
+          "InputTypeConfigID": "mjztc3iy-aqm3kgm",
+          "value": ">1000"
+        },
+        {
+          "amlPageConfigID": "6d8f",
+          "InputTypeConfigID": "mjztc3iy-aqm3kgm",
+          "value": ">10000"
+        },
+        {
+          "amlPageConfigID": "6d8f",
+          "InputTypeConfigID": "mjztc3iy-e48kjjj",
+          "value": "Non"
+        },
+        {
+          "amlPageConfigID": "6d8f",
+          "InputTypeConfigID": "mjztc3iy-68i05zn",
+          "value": "pays origine de transaction "
+        },
+        {
+          "amlPageConfigID": "6d8f",
+          "InputTypeConfigID": "mjztc3iy-qg97is6",
+          "value": "countries - Copie.csv"
+        }
+      ]
     }
   ]
 }
