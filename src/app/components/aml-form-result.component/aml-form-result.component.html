@@ -38,6 +38,7 @@
               </div>
               <h4 class="text-sm font-bold text-gray-800">
                 {{ getFieldConfig(configId)?.labelMessage || 'Champ supprimé ou inconnu' }}
+                {{ getFieldConfig(configId)?.facteur ? ' (x' + getFieldConfig(configId)?.facteur + ')' : '' }}
               </h4>
             </div>
 
@@ -52,6 +53,10 @@
                 </svg>
 
                 <span class="text-sm font-semibold text-indigo-900">{{ val }}</span>
+                <span
+                  class="ml-3 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                  Risque: {{ getOptionScore(configId, val) }}
+                </span>
               </div>
 
               <span *ngIf="getValuesForField(configId).length === 0" class="text-sm italic text-gray-400">

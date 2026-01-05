@@ -64,7 +64,7 @@
               @for (option of inputTypeConfig.options; track option.value) {
               <div>
                 <label class="flex items-center" [ngClass]="{'block': inputTypeConfig.optionsLayout !== 'inline'}">
-                  <input type="checkbox" [formControlName]="option.id || 'aa' " [value]="option.value"
+                  <input type="checkbox" [formControlName]="option.id || 'lolo' " [value]="option.value"
                     class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" />
                   <span class="ml-3 block text-base font-medium text-gray-700">
                     {{ option.value }}{{ ' (Risque: ' + (option.score * inputTypeConfig.facteur) + ')' }}

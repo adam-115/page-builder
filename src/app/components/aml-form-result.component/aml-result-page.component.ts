@@ -66,4 +66,12 @@ export class AmlFormResultComponent implements OnInit {
     if (level === 'Modéré') return 'bg-amber-100 text-amber-700 border-amber-200';
     return 'bg-red-100 text-red-700 border-red-200';
   }
+
+  getOptionScore(configId: string, value: string): number {
+    const fieldConfig = this.getFieldConfig(configId);
+    if (!fieldConfig || !fieldConfig.options) return 0;
+    const option = fieldConfig.options.find(opt => opt.value === value);
+    return option ? option.score * fieldConfig.facteur : 0;
+  }
+
 }

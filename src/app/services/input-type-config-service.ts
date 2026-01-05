@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 })
 export class InputTypeConfigService extends AbstractCrudService<AmlInputConfig> {
 
-  protected apiUrl = environment.apiUrl+'InputTypeConfig'; // Provide your API URL
+  protected apiUrl = environment.apiUrl+'AmlInputConfig'; // Provide your API URL
 
   constructor(http: HttpClient) {
     super(http);

@@ -19,7 +19,6 @@ export class AmlPageView {
     alert("Ceci est une prévisualisation. Dans l'application réelle, cela soumettrait les données.");
   }
 
-
   onClose() {
     this.close.emit();
   }

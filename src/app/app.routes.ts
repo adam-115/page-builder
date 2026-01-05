@@ -3,7 +3,7 @@ import { AmlFormViewComponent } from './components/aml-dynamic-form-component/am
 import { AmlFormConfigComponent } from './components/aml-form-config-component/aml-form-config-component';
 import { AmlFormListComponent } from './components/aml-form-list-component/aml-form-list-component';
 import { AmlPageView } from './components/aml-page-view/aml-page-view';
-import { AmlFormResultComponent } from './components/aml-result-page.component/aml-result-page.component';
+import { AmlFormResultComponent } from './components/aml-form-result.component/aml-result-page.component';
 import { NavigationService } from './services/navigation-service';
 
 export const routes: Routes = [
