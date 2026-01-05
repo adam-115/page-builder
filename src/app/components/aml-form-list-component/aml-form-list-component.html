@@ -3,47 +3,47 @@
 
     <div class="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4">
       <div>
-        <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Pages de Questionnaire AML</h1>
+        <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Formulaires de Questionnaire AML</h1>
         <p class="text-sm text-gray-500 mt-1">Gérez les étapes du parcours client et la logique de scoring associée.</p>
       </div>
-      <button (click)="createNewPage()"
+      <button (click)="createNewForm()"
               class="inline-flex items-center px-6 py-3 bg-indigo-600 border border-transparent rounded-xl text-sm font-bold text-white hover:bg-indigo-700 transition shadow-lg shadow-indigo-200">
         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
-        Nouvelle Page
+        Nouveau Formulaire
       </button>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-      @for (page of pages; track page.id) {
+      @for (amlFormConfig of AmlFormConfigs; track amlFormConfig.id) {
         <div class="bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-all group flex flex-col">
 
           <div class="p-6 flex-1">
             <div class="flex justify-between items-start mb-4">
               <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-600 border border-indigo-100 uppercase tracking-wider">
-                Ordre: {{ page.order }}
+                Ordre: {{ amlFormConfig.order }}
               </span>
-              <span class="text-xs text-gray-400 font-mono italic">#{{ page.pageName }}</span>
+              <span class="text-xs text-gray-400 font-mono italic">#{{ amlFormConfig.formName }}</span>
             </div>
 
             <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition">
-              {{ page.pageTitle }}
+              {{ amlFormConfig.formTitle }}
             </h3>
 
             <p class="text-sm text-gray-500 leading-relaxed line-clamp-3">
-              {{ page.pageDescription }}
+              {{ amlFormConfig.formDescription }}
             </p>
 
             <div class="mt-6 flex items-center space-x-4">
               <div class="flex items-center text-gray-400">
                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                <span class="text-xs font-semibold">{{ page.formConfig.length }} Champs</span>
+                <span class="text-xs font-semibold">{{ amlFormConfig.inputConfigs.length }} Champs</span>
               </div>
             </div>
           </div>
 
           <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 rounded-b-2xl flex items-center justify-between">
-            <button (click)="editPage(page)"
+            <button (click)="editForm(amlFormConfig)"
                     class="text-sm font-bold text-indigo-600 hover:text-indigo-800 transition flex items-center">
               <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
               Modifier
@@ -51,7 +51,7 @@
 
             <div class="flex items-center space-x-2">
               <!-- Bouton pour voir/prévisualiser la page -->
-              <button (click)="viewThepage(page)"
+              <button (click)="viewTheForm(amlFormConfig)"
                       class="p-2 text-gray-400 hover:text-blue-600 transition"
                       title="Prévisualiser la page">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -79,18 +79,18 @@
           </div>
           <h2 class="text-2xl font-bold text-gray-900">Aucune page configurée</h2>
           <p class="text-gray-500 mt-2 max-w-sm mx-auto">Commencez par créer votre première page de collecte de données AML pour configurer le scoring.</p>
-          <button (click)="createNewPage()" class="mt-8 px-8 py-3 bg-indigo-600 text-white rounded-xl font-bold shadow-lg hover:bg-indigo-700 transition">
+          <button (click)="createNewForm()" class="mt-8 px-8 py-3 bg-indigo-600 text-white rounded-xl font-bold shadow-lg hover:bg-indigo-700 transition">
             Créer ma première page
           </button>
         </div>
       }
 
-      <button (click)="createNewPage()"
+      <button (click)="createNewForm()"
               class="border-2 border-dashed border-gray-300 rounded-2xl p-6 flex flex-col items-center justify-center text-gray-400 hover:border-indigo-400 hover:text-indigo-500 transition-all bg-transparent hover:bg-white group">
         <div class="p-4 rounded-full bg-gray-100 group-hover:bg-indigo-50 transition mb-4">
           <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
         </div>
-        <span class="font-bold">Ajouter une nouvelle page</span>
+        <span class="font-bold">Ajouter une nouveau formulaire</span>
         <span class="text-xs mt-1">Créez une nouvelle étape de questionnaire</span>
       </button>
 

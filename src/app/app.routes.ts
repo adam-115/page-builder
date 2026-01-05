@@ -1,46 +1,46 @@
 import { Routes } from '@angular/router';
-import { AmlDynamicFormComponent } from './components/aml-dynamic-form-component/aml-dynamic-form-component';
-import { AmlPageConfigComponent } from './components/aml-page-config-component/aml-page-config-component';
-import { AmlPageListComponent } from './components/aml-page-list-component/aml-page-list-component';
+import { AmlFormViewComponent } from './components/aml-dynamic-form-component/aml-dynamic-form-component';
+import { AmlFormConfigComponent } from './components/aml-form-config-component/aml-form-config-component';
+import { AmlFormListComponent } from './components/aml-form-list-component/aml-form-list-component';
 import { AmlPageView } from './components/aml-page-view/aml-page-view';
-import { AmlResultPageComponent } from './components/aml-result-page.component/aml-result-page.component';
+import { AmlFormResultComponent } from './components/aml-result-page.component/aml-result-page.component';
 import { NavigationService } from './services/navigation-service';
 
 export const routes: Routes = [
   {
     path: '',
-    component: AmlPageListComponent
+    component: AmlFormListComponent
   },
   {
-    path: NavigationService.PAGE_CONFIG_LIST,
-    component: AmlPageListComponent
+    path: NavigationService.FORM_CONFIG_LIST,
+    component: AmlFormListComponent
 
   },
   {
-    path: NavigationService.PAGE_CONFIG_CREATE,
-    component: AmlPageConfigComponent
+    path: NavigationService.FORM_CONFIG_CREATE,
+    component: AmlFormConfigComponent
   },
   {
-    path: NavigationService.PAGE_CONFIG_EDIT,
-    component: AmlPageConfigComponent
+    path: NavigationService.FORM_CONFIG_EDIT,
+    component: AmlFormConfigComponent
   },
 
   {
-    path: NavigationService.PAGE_CONFIG_VIEW,
-    component: AmlDynamicFormComponent
+    path: NavigationService.FORM_CONFIG_VIEW,
+    component: AmlFormViewComponent
   },
   {
-    path: NavigationService.PAGE_RESULT_VIEW,
-    component: AmlResultPageComponent
+    path: NavigationService.FORM_RESULT_VIEW,
+    component: AmlFormResultComponent
   },
 
   {
     path: 'test',
-    component: AmlDynamicFormComponent
+    component: AmlFormViewComponent
   },
   {
     path: 'test2',
-    component: AmlResultPageComponent
+    component: AmlFormResultComponent
   },
   {
     path: 'test3',

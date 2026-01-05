@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { InputType, InputTypeConfig, Option } from '../../../appTypes';
+import { InputType, AmlInputConfig, AMLInputOption } from '../../../appTypes';
 
 // Valeurs initiales par défaut
-const initialField: InputTypeConfig = {
+const initialField: AmlInputConfig = {
   type: 'select',
   name: '',
   facteur: 1,
@@ -15,23 +15,23 @@ const initialField: InputTypeConfig = {
 @Component({
   selector: 'app-aml-field-edit',
   imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './aml-field-edit.html',
-  styleUrl: './aml-field-edit.css',
+  templateUrl: './aml-input-config.html',
+  styleUrl: './aml-input-config.css',
 })
-export class AmlFieldEdit implements OnInit {
+export class AmlInputConfigComponent implements OnInit {
 
   fb = inject(FormBuilder);
 
   // for the update
   @Input()
-  selectedInputTypeConfig: InputTypeConfig | null = null;
+  selectedAmlInputConfig: AmlInputConfig | null = null;
 
   //events
   @Output()
-  save = new EventEmitter<InputTypeConfig>();
+  save = new EventEmitter<AmlInputConfig>();
 
   @Output()
-  update = new EventEmitter<InputTypeConfig>();
+  update = new EventEmitter<AmlInputConfig>();
 
   @Output()
   closed = new EventEmitter<void>();
@@ -44,9 +44,9 @@ export class AmlFieldEdit implements OnInit {
 
 
   ngOnInit(): void {
-    if (this.selectedInputTypeConfig) {
-      console.log(this.selectedInputTypeConfig);
-      this.initForm(this.selectedInputTypeConfig);
+    if (this.selectedAmlInputConfig) {
+      console.log(this.selectedAmlInputConfig);
+      this.initForm(this.selectedAmlInputConfig);
     } else {
       this.initForm(initialField);
     }
@@ -57,10 +57,10 @@ export class AmlFieldEdit implements OnInit {
   }
 
   // Initialisation du formulaire réactif
-  initForm(config: InputTypeConfig): void {
+  initForm(config: AmlInputConfig): void {
 
     // Créer le FormArray 'options' basé sur les données existantes
-    const initialOptions: Option[] = config.options || [];
+    const initialOptions: AMLInputOption[] = config.options || [];
     this.amlForm = this.fb.group({
       id: [config.id],
       type: [config.type, Validators.required],
@@ -82,7 +82,7 @@ export class AmlFieldEdit implements OnInit {
   }
 
   // Crée un FormGroup pour une seule option
-  createOptionFormGroup(option: Option): FormGroup {
+  createOptionFormGroup(option: AMLInputOption): FormGroup {
     return this.fb.group({
       id: [option.id],
       value: [option.value, Validators.required],
@@ -92,7 +92,7 @@ export class AmlFieldEdit implements OnInit {
   }
 
   // Mappe les données initiales en FormGroups
-  createOptionFormArray(options: Option[], currentType: InputType): FormGroup[] {
+  createOptionFormArray(options: AMLInputOption[], currentType: InputType): FormGroup[] {
     // Si c'est un champ à options et qu'il n'y en a pas, ajouter une option par défaut
     if (this.optionRequiredTypes.includes(currentType) && options.length === 0) {
       return [this.createOptionFormGroup({ value: '', score: 0 })];
@@ -126,7 +126,7 @@ export class AmlFieldEdit implements OnInit {
     const formValue = this.amlForm.value;
 
     // Construction de l'objet de sortie selon l'interface InputTypeConfig
-    const configPayload: InputTypeConfig = {
+    const configPayload: AmlInputConfig = {
       id: formValue.id || null,
       type: formValue.type as InputType,
       name: formValue.name,
@@ -156,7 +156,7 @@ export class AmlFieldEdit implements OnInit {
         InputTypeConfigId: configPayload.id
       }));
     }
-    if (this.selectedInputTypeConfig) {
+    if (this.selectedAmlInputConfig) {
       this.update.emit(configPayload);
     } else {
       this.save.emit(configPayload);
@@ -213,7 +213,7 @@ export class AmlFieldEdit implements OnInit {
     // Pour uploadFile, on ne touche pas aux options (elles restent vides)
   }
 
-  patchForm(config: InputTypeConfig): void {
+  patchForm(config: AmlInputConfig): void {
     this.amlForm.patchValue(config);
     this.options.clear();
     if (config.options) {

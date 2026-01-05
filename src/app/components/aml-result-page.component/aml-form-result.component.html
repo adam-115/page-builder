@@ -5,16 +5,16 @@
       <div class="p-8 flex flex-col md:flex-row items-center justify-between gap-6">
         <div>
           <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Analyse de la page</span>
-          <h1 class="text-2xl font-extrabold text-gray-900">{{ pageConfig.pageTitle }}</h1>
-          <p class="text-sm text-gray-500 mt-1">ID Résultat: #{{ amlPageConfigResult.id }} | ID Config: {{
-            amlPageConfigResult.amlPageConfigID }}</p>
+          <h1 class="text-2xl font-extrabold text-gray-900">{{ amlFormConfig.formTitle }}</h1>
+          <p class="text-sm text-gray-500 mt-1">ID Résultat: #{{ amlFormResult.id }} | ID Config: {{
+            amlFormResult.amlFormConfigID }}</p>
         </div>
 
         <div [ngClass]="getRiskStyles()"
           class="flex flex-col items-center justify-center px-10 py-4 rounded-2xl border">
           <span class="text-[10px] font-bold uppercase opacity-70">Score Total</span>
-          <span class="text-4xl font-black">{{ amlPageConfigResult.totalScore }}</span>
-          <span class="text-xs font-bold uppercase mt-1">{{ amlPageConfigResult.riskLevel || 'Calculé' }}</span>
+          <span class="text-4xl font-black">{{ amlFormResult.totalScore }}</span>
+          <span class="text-xs font-bold uppercase mt-1">{{ amlFormResult.riskLevel || 'Calculé' }}</span>
         </div>
       </div>
     </div>

@@ -1,12 +1,12 @@
-import { AmlPageConfigResultService } from './../../services/aml-page-config-result-service';
+import { AmlFormResultService } from '../../services/aml-form-result-result-service';
 import { AlertService } from './../../services/alert-service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { AmlPageConfigValue, InputTypeConfig, Option } from '../../../appTypes';
-import { AmlPageConfig, AmlPageConfigResult } from './../../../appTypes';
-import { PageConfigService } from './../../services/page-config-service';
+import { AmlInputValue, AmlInputConfig, AMLInputOption } from '../../../appTypes';
+import { AmlFormConfig, AmlFormResult } from './../../../appTypes';
+import { AmlFormConfigService } from '../../services/AmlFormConfigService';
 
 // Interface pour le suivi du score par champ (simplifiée pour l'affichage)
 interface FieldScore {
@@ -17,23 +17,23 @@ interface FieldScore {
 }
 
 @Component({
-  selector: 'app-aml-dynamic-form-component',
+  selector: 'app-aml-dynamic-form-view-component',
   imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './aml-dynamic-form-component.html',
-  styleUrl: './aml-dynamic-form-component.css',
+  templateUrl: './aml-dynamic-form-view-component.html',
+  styleUrl: './aml-dynamic-form-view-component.css',
 })
-export class AmlDynamicFormComponent implements OnInit {
+export class AmlFormViewComponent implements OnInit {
 
   activatedRoute = inject(ActivatedRoute);
-  pageConfigService = inject(PageConfigService);
-  amlPageConfigResultService = inject(AmlPageConfigResultService);
+  amlFormConfigService = inject(AmlFormConfigService);
+  amlPageConfigResultService = inject(AmlFormResultService);
   alertService = inject(AlertService);
   fb = inject(FormBuilder);
-  selectedPageConfig: AmlPageConfig | null = null;
+  selectedFormConfig: AmlFormConfig | null = null;
   dynamicForm: FormGroup;
   totalRiskScore: number = 0;
   fieldScores: FieldScore[] = [];
-  InpuTypeConfigs: InputTypeConfig[] = [];
+  AmlInpuConfigs: AmlInputConfig[] = [];
 
 
 
@@ -50,9 +50,9 @@ export class AmlDynamicFormComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
       const id = params.get("id");
       if (id) {
-        this.pageConfigService.findById(id).subscribe(data => {
-          this.selectedPageConfig = data;
-          this.InpuTypeConfigs = this.selectedPageConfig.formConfig;
+        this.amlFormConfigService.findById(id).subscribe(data => {
+          this.selectedFormConfig = data;
+          this.AmlInpuConfigs = this.selectedFormConfig.inputConfigs;
           // Reconstruire le formulaire dynamique avec la nouvelle configuration
           this.buildDynamicForm();
           this.subscribeToFormChanges();
@@ -63,7 +63,7 @@ export class AmlDynamicFormComponent implements OnInit {
   }
   // Construction dynamique des FormControls
   private buildDynamicForm(): void {
-    this.InpuTypeConfigs.forEach(config => {
+    this.AmlInpuConfigs.forEach(config => {
       const validators = config.required ? [Validators.required] : [];
 
       if (config.type === 'uploadFile') {
@@ -99,7 +99,7 @@ export class AmlDynamicFormComponent implements OnInit {
 
   private calculateRiskScore2(): void {
     let score = 0;
-    this.InpuTypeConfigs.forEach(config => {
+    this.AmlInpuConfigs.forEach(config => {
       // case input upload file
       if (config.type === 'uploadFile') {
         let fileName = this.dynamicForm.get(config.name)?.value;
@@ -110,7 +110,7 @@ export class AmlDynamicFormComponent implements OnInit {
       // case type select
       if (config.type === 'select') {
         if (this.dynamicForm.get(config.name)?.value != null) {
-          let fieldValue: Option = this.dynamicForm.get(config.name)?.value;
+          let fieldValue: AMLInputOption = this.dynamicForm.get(config.name)?.value;
           score += (fieldValue.score * config.facteur);
         }
       }
@@ -142,8 +142,8 @@ export class AmlDynamicFormComponent implements OnInit {
   }
 
   // Méthode utilitaire pour accéder à la configuration
-  getFieldConfig(name: string): InputTypeConfig | undefined {
-    return this.InpuTypeConfigs.find(c => c.name === name);
+  getFieldConfig(name: string): AmlInputConfig | undefined {
+    return this.AmlInpuConfigs.find(c => c.name === name);
   }
 
   // Gestion de l'upload (met le nom du fichier comme valeur du FormControl)
@@ -157,7 +157,7 @@ export class AmlDynamicFormComponent implements OnInit {
   }
 
   //compare two option object used in select form
-  compareOptionObjects(object1: Option | null, object2: Option | null): boolean {
+  compareOptionObjects(object1: AMLInputOption | null, object2: AMLInputOption | null): boolean {
     // Compare based on a unique identifier (like 'id')
     return object1 && object2 ? object1.id === object2.id : object1 === object2;
   }
@@ -199,7 +199,7 @@ export class AmlDynamicFormComponent implements OnInit {
 
   isFormValid(): boolean {
     let isValid = true;
-    this.selectedPageConfig?.formConfig.forEach(config => {
+    this.selectedFormConfig?.inputConfigs.forEach(config => {
       const control = this.dynamicForm.get(config.name);
       if (config.required) {
         if (config.type === 'checkbox') {
@@ -224,17 +224,17 @@ export class AmlDynamicFormComponent implements OnInit {
   }
 
 
-  private convertFomValueToAmlPageConfigValues(): AmlPageConfigResult {
-    const amlPageConfigValues: AmlPageConfigValue[] = [];
-    this.InpuTypeConfigs.forEach(config => {
+  private convertFomValueToAmlPageConfigValues(): AmlFormResult {
+    const amlPageConfigValues: AmlInputValue[] = [];
+    this.AmlInpuConfigs.forEach(config => {
       if (config.type === 'checkbox') {
         const subFormGroup = this.dynamicForm.get(config.name);
         config.options?.forEach(option => {
           const isChecked = subFormGroup?.get(option.id || '')?.value;
           if (isChecked) {
             amlPageConfigValues.push({
-              amlPageConfigID: this.selectedPageConfig?.id,
-              InputTypeConfigID: config.id ?? '',
+              amlFormConfig: this.selectedFormConfig?.id,
+              InputConfigID: config.id ?? '',
               value: option.value || ''
             });
           }
@@ -242,18 +242,18 @@ export class AmlDynamicFormComponent implements OnInit {
 
       } else {
         if (config.type === 'select') {
-          const selectedOption: Option = this.dynamicForm.get(config.name)?.value;
+          const selectedOption: AMLInputOption = this.dynamicForm.get(config.name)?.value;
           amlPageConfigValues.push({
-            amlPageConfigID: this.selectedPageConfig?.id,
-            InputTypeConfigID: config.id || '',
+            amlFormConfig: this.selectedFormConfig?.id,
+            InputConfigID: config.id || '',
             value: selectedOption.value || ''
           });
         }
         else {
           const controlValue = this.dynamicForm.get(config.name)?.value;
           amlPageConfigValues.push({
-            amlPageConfigID: this.selectedPageConfig?.id,
-            InputTypeConfigID: config.id || '',
+            amlFormConfig: this.selectedFormConfig?.id,
+            InputConfigID: config.id || '',
             value: controlValue ? controlValue.toString() : ''
           });
         }
@@ -263,8 +263,8 @@ export class AmlDynamicFormComponent implements OnInit {
 
     // risklevel tobe calculated and stored in AmlPageConfigResult afterward depending on the totalRiskScore and user config
 
-    let amlPageConfigResult: AmlPageConfigResult = {
-      amlPageConfigID: this.selectedPageConfig?.id,
+    let amlPageConfigResult: AmlFormResult = {
+      amlFormConfigID: this.selectedFormConfig?.id,
       totalScore: this.totalRiskScore,
       AmlPageConfigValues: amlPageConfigValues,
 

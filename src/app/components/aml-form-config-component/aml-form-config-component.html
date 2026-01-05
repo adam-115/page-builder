@@ -6,19 +6,19 @@
           <nav class="flex text-sm text-gray-500 mb-2">
             <span>AML Management</span>
             <span class="mx-2">/</span>
-            <span class="font-semibold text-indigo-600">Configuration de Page</span>
+            <span class="font-semibold text-indigo-600">Configuration de Formulaire</span>
           </nav>
-          <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Nouvelle Page AML</h1>
+          <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Nouveau Formulaire AML</h1>
         </div>
         <div class="flex items-center space-x-3">
           <button (click)="annuler()"
             class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition shadow-sm">
             Annuler
           </button>
-          <button type="submit" (click)="Onsubmit()" [disabled]="pageForm.invalid || inputTypesConfigs.length===0"
+          <button type="submit" (click)="Onsubmit()" [disabled]="pageForm.invalid || amlInputConfigs.length===0"
             [class.opacity-50]="pageForm.invalid" [class.cursor-not-allowed]="pageForm.invalid"
             class="px-6 py-2 bg-indigo-600 border border-transparent rounded-lg text-sm font-bold text-white hover:bg-indigo-700 transition shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
-            {{isEditeMode ==true ?"Mettre a jour ":"Sauvegarder la Page"}}{{isEditeMode}}
+            {{isEditeMode ==true ?"Mettre a jour ":"Sauvegarder le Formulaire"}}
           </button>
         </div>
       </div>
@@ -32,15 +32,15 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0116 0z"></path>
               </svg>
-              Détails de la Page
+              Détails du Formulaire AML
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">Nom technique de la page (ID)(*)</label>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Nom technique du formulaire (ID)(*)</label>
                 <input formControlName="pageName" type="text" placeholder="ex: onboarding_kyc_step1"
                   class="w-full rounded-lg border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 border p-2.5 shadow-sm">
                 @if (this.pageForm.get('pageName')?.invalid && this.pageForm.get('pageName')?.touched) {
-                <p class="text-sm text-red-600 mt-1">Le nom de la page est requis et doit être unique.</p>
+                <p class="text-sm text-red-600 mt-1">Le nom du formulaire est requis et doit être unique.</p>
                 }
               </div>
               <div>
@@ -49,18 +49,18 @@
                   class="w-full rounded-lg border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 border p-2.5 shadow-sm">
               </div>
               <div class="md:col-span-2">
-                <label class="block text-sm font-semibold text-gray-700 mb-1">Titre de la page (Visible par le
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Titre du Formulaire (Visible par le
                   client)(*)</label>
                 <input formControlName="pageTitle" type="text" placeholder="ex: Vérification de l'identité"
                   class="w-full rounded-lg border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 border p-2.5 shadow-sm text-lg font-medium">
                 @if (this.pageForm.get('pageTitle')?.invalid && this.pageForm.get('pageTitle')?.touched) {
-                <p class="text-sm text-red-600 mt-1">Le titre de la page est requis.</p>
+                <p class="text-sm text-red-600 mt-1">Le titre du formulaire est requis.</p>
                 }
               </div>
               <div class="md:col-span-2">
                 <label class="block text-sm font-semibold text-gray-700 mb-1">Description / Instructions</label>
                 <textarea formControlName="pageDescription" rows="3"
-                  placeholder="Expliquez brièvement l'objectif de cette page au client..."
+                  placeholder="Expliquez brièvement l'objectif de ce formulaire au client..."
                   class="w-full rounded-lg border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 border p-2.5 shadow-sm"></textarea>
               </div>
             </div>
@@ -96,7 +96,7 @@
 
           <div class="space-y-4">
 
-            @for (inputTypeConfig of inputTypesConfigs; track $index) {
+            @for (inputTypeConfig of amlInputConfigs; track $index) {
             <div class="bg-white rounded-xl border border-gray-200 shadow-sm hover:border-indigo-300 transition group">
               <div class="p-4 flex items-center justify-between bg-gray-50 border-b border-gray-100 rounded-t-xl">
                 <div class="flex items-center space-x-3">
@@ -159,22 +159,15 @@
       </div>
 
       <div class="mt-8 text-center text-xs text-gray-400">
-        ID de la page : <span class="font-mono"> "id" || 'Nouveau' </span> | Version 2.0
+        ID du formulaire : <span class="font-mono"> "id" || 'Nouveau' </span> | Version 2.0
       </div>
     </form>
   </div>
 </div>
 
 
-@if (showDialogNewInputTypeConfig) {
+@if (showDialogNewInputAmlConfig) {
 <app-aml-field-edit (save)="addInputTypeConfig($event)" (update)="updateInputTypeConfig($event)"
-  (closed)="closeInputFieldConfigDialog()" [selectedInputTypeConfig]="selectedInputTypeConfig"></app-aml-field-edit>
+  (closed)="closeInputFieldConfigDialog()" [selectedAmlInputConfig]="selectedAmlInputConfig"></app-aml-field-edit>
 }
-<!-- <app-aml-field-edit [showDialog]="showDilogNouveauChamp" (close)="closeFieldDialog()" (save)="addOrUpdateField($event)"
-  [selectedInputTypeConfig]="selectedTypeConfig" (update)="updateInputTypeConfig($event)"></app-aml-field-edit>
 
-<app-alert-component [isOpen]="showdialogAlert" [alertConfig]="alertConfig" (confirmed)="confirmAlert($event)"
-  (cancelled)="cancelAlert($event)"></app-alert-component>
-
-<app-aml-page-view [isOpen]="showDialogPreview" [amlPageConfig]="amlPagePreviewConfig"
-  (close)="closePreviewDialog()"></app-aml-page-view> -->

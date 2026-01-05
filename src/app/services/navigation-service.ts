@@ -13,31 +13,30 @@ export class NavigationService {
 
   router = inject(Router);
 
-  public static readonly PAGE_CONFIG_LIST = "page-config-list";
-  public static readonly PAGE_CONFIG_CREATE = "page-config/create";
-  public static readonly PAGE_CONFIG_EDIT = "page-config/edite/:id";
-  public static readonly PAGE_CONFIG_VIEW = "page-config/view/:id";
-  public static readonly PAGE_RESULT_VIEW = "page-result/view/:id";
+  public static readonly FORM_CONFIG_LIST = "aml-form-config-list";
+  public static readonly FORM_CONFIG_CREATE = "form-config/create";
+  public static readonly FORM_CONFIG_EDIT = "form-config/edit/:id";
+  public static readonly FORM_CONFIG_VIEW = "form-config/view/:id";
+  public static readonly FORM_RESULT_VIEW = "form-result/view/:id";
 
 
-
-  public navigateToPageConfigList(): void {
-    this.router.navigate(['/', NavigationService.PAGE_CONFIG_LIST]);
+  public navigateToFormConfigList(): void {
+    this.router.navigate(['/', NavigationService.FORM_CONFIG_LIST]);
   }
 
-  public navigateToNewPageConfig(): void {
-    this.router.navigate(['/', ...NavigationService.PAGE_CONFIG_CREATE.split('/')]);
+  public navigateToNewFormConfig(): void {
+    this.router.navigate(['/', ...NavigationService.FORM_CONFIG_CREATE.split('/')]);
   }
 
 
-  public navigateToEditPageConfig(id: number): void {
-    let targetUrl = NavigationService.PAGE_CONFIG_EDIT.replace(":id", id.toString());
+  public navigateToEditFormConfig(id: number): void {
+    let targetUrl = NavigationService.FORM_CONFIG_EDIT.replace(":id", id.toString());
     this.router.navigate(['/', ...targetUrl.split("/")]);
 
   }
 
-  public navigateToViewPageConfig(id: number): void {
-    let targetUrl = NavigationService.PAGE_CONFIG_VIEW.replace(":id", id.toString());
+  public navigateToViewFormConfig(id: number): void {
+    let targetUrl = NavigationService.FORM_CONFIG_VIEW.replace(":id", id.toString());
     this.router.navigate(['/', ...targetUrl.split("/")]);
   }
 

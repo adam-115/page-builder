@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AmlPageConfig } from '../../../appTypes';
+import { AmlFormConfig } from '../../../appTypes';
 
 @Component({
   selector: 'app-aml-page-view',
@@ -11,7 +11,7 @@ import { AmlPageConfig } from '../../../appTypes';
 export class AmlPageView {
 
   @Input() isOpen: boolean = true;
-  @Input() amlPageConfig: AmlPageConfig | null = null;
+  @Input() amlPageConfig: AmlFormConfig | null = null;
   @Output() close = new EventEmitter<void>();
 
   // Simulation d'une action de soumission pour la prévisualisation

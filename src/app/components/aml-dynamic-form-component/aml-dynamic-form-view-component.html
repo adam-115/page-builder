@@ -8,7 +8,7 @@
     <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-lg border border-gray-200">
       <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()" class="space-y-8">
 
-        @for (inputTypeConfig of InpuTypeConfigs; track inputTypeConfig.name) {
+        @for (inputTypeConfig of AmlInpuConfigs; track inputTypeConfig.name) {
         <div class="border-b pb-6"
           [class.border-red-300]="dynamicForm.get(inputTypeConfig.name)?.invalid && dynamicForm.get(inputTypeConfig.name)?.touched">
           <label  class="block text-lg font-semibold text-gray-800 mb-2"

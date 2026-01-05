@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AmlPageConfigComponent } from "../aml-page-config-component/aml-page-config-component";
+import { AmlFormConfigComponent } from "../aml-form-config-component/aml-form-config-component";
 
 @Component({
   selector: 'app-test',
-  imports: [AmlPageConfigComponent],
+  imports: [AmlFormConfigComponent],
   templateUrl: './test.html',
   styleUrl: './test.css',
 })

@@ -1,23 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AmlPageConfig, AmlPageConfigResult, InputTypeConfig } from '../../../appTypes';
-import { AmlPageConfigResultService } from './../../services/aml-page-config-result-service';
-import { PageConfigService } from './../../services/page-config-service';
+import { AmlFormConfig, AmlFormResult, AmlInputConfig } from '../../../appTypes';
+import { AmlFormResultService } from '../../services/aml-form-result-result-service';
+import { AmlFormConfigService } from '../../services/AmlFormConfigService';
 
 @Component({
-  selector: 'app-aml-result-page',
+  selector: 'app-aml-form-result',
   imports: [CommonModule],
-  templateUrl: './aml-result-page.component.html',
-  styleUrl: './aml-result-page.component.css',
+  templateUrl: './aml-form-result.component.html',
+  styleUrl: './aml-form-result.component.css',
 })
-export class AmlResultPageComponent implements OnInit {
-  amlPageConfigResult!: AmlPageConfigResult;
-  pageConfig!: AmlPageConfig;
+export class AmlFormResultComponent implements OnInit {
+  amlFormResult!: AmlFormResult;
+  amlFormConfig!: AmlFormConfig;
 
   activatedRoute = inject(ActivatedRoute);
-  amlPageConfigResultService = inject(AmlPageConfigResultService);
-  PageConfigService = inject(PageConfigService);
+  amlPageConfigResultService = inject(AmlFormResultService);
+  PageConfigService = inject(AmlFormConfigService);
 
 
   constructor() { }
@@ -26,8 +26,8 @@ export class AmlResultPageComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
       const id = params.get("id");
       this.amlPageConfigResultService.findById(id!).subscribe(data => {
-        this.amlPageConfigResult = data;
-        this.loadPageConfig(data.amlPageConfigID!);
+        this.amlFormResult = data;
+        this.loadPageConfig(data.amlFormConfigID!);
       });
     });
   }
@@ -35,33 +35,33 @@ export class AmlResultPageComponent implements OnInit {
   private loadPageConfig(pageConfigId: number): void {
     // Load the page config if needed
     this.PageConfigService.findById(pageConfigId).subscribe(data => {
-      this.pageConfig = data;
+      this.amlFormConfig = data;
     });
 
   }
 
 
   // Récupère la configuration d'un champ à partir de son ID technique
-  getFieldConfig(configId: string): InputTypeConfig | undefined {
-    return this.pageConfig.formConfig.find(c => c.id === configId);
+  getFieldConfig(configId: string): AmlInputConfig | undefined {
+    return this.amlFormConfig.inputConfigs.find(c => c.id === configId);
   }
 
   // Groupe les valeurs par ID (utile pour les Checkboxes qui ont plusieurs entrées)
   getUniqueFieldIds(): string[] {
-    const ids = this.amlPageConfigResult.AmlPageConfigValues?.map(v => v.InputTypeConfigID) || [];
+    const ids = this.amlFormResult.AmlPageConfigValues?.map(v => v.InputConfigID) || [];
     return [...new Set(ids)];
   }
 
   // Récupère toutes les valeurs pour un champ donné (ex: ["Value1", "Value2"])
   getValuesForField(configId: string): string[] {
-    return this.amlPageConfigResult.AmlPageConfigValues
-      ?.filter(v => v.InputTypeConfigID === configId)
+    return this.amlFormResult.AmlPageConfigValues
+      ?.filter(v => v.InputConfigID === configId)
       .map(v => v.value) || [];
   }
 
   // Style dynamique pour le niveau de risque
   getRiskStyles() {
-    const level = this.amlPageConfigResult.riskLevel;
+    const level = this.amlFormResult.riskLevel;
     if (level === 'Faible') return 'bg-green-100 text-green-700 border-green-200';
     if (level === 'Modéré') return 'bg-amber-100 text-amber-700 border-amber-200';
     return 'bg-red-100 text-red-700 border-red-200';

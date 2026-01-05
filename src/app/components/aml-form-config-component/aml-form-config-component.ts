@@ -2,49 +2,48 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { AmlPageConfig } from '../../../appTypes';
+import { AmlFormConfig, AmlInputConfig } from '../../../appTypes';
 import { AlertService } from '../../services/alert-service';
+import { AmlFormConfigService } from '../../services/AmlFormConfigService';
+import { NavigationService } from '../../services/navigation-service';
 import { UtilsService } from '../../services/utils-service';
-import { AmlFieldEdit } from "../aml-field-edit/aml-field-edit";
-import { InputTypeConfig } from './../../../appTypes';
-import { NavigationService } from './../../services/navigation-service';
-import { PageConfigService } from './../../services/page-config-service';
+import { AmlInputConfigComponent } from "../aml-input-config-component/aml-input-config";
 
 @Component({
-  selector: 'app-aml-page-config-component',
-  imports: [CommonModule, ReactiveFormsModule, AmlFieldEdit],
-  templateUrl: './aml-page-config-component.html',
-  styleUrl: './aml-page-config-component.css',
+  selector: 'app-aml-form-config-component',
+  imports: [CommonModule, ReactiveFormsModule, AmlInputConfigComponent],
+  templateUrl: './aml-form-config-component.html',
+  styleUrl: './aml-form-config-component.css',
 })
-export class AmlPageConfigComponent implements OnInit {
+export class AmlFormConfigComponent implements OnInit {
 
   // service injection
-  pageConfigService = inject(PageConfigService);
+  amlFormConfigService = inject(AmlFormConfigService);
   navigationService = inject(NavigationService);
   alertService = inject(AlertService);
   activatedRoute = inject(ActivatedRoute);
   utilsService = inject(UtilsService);
 
-  inputTypesConfigs: InputTypeConfig[] = [];
+  amlInputConfigs: AmlInputConfig[] = [];
 
   // if is on edit mode
   isEditeMode = false;
-  editedPageConfig: AmlPageConfig | null = null;
-  selectedInputTypeConfig: InputTypeConfig | null = null;
-  showDialogNewInputTypeConfig = false;
+  editedFormConfig: AmlFormConfig | null = null;
+  selectedAmlInputConfig: AmlInputConfig | null = null;
+  showDialogNewInputAmlConfig = false;
 
   showDialogPreview: boolean = false;
 
 
-  amlPagePreviewConfig: AmlPageConfig | null = null;
+  amlPagePreviewConfig: AmlFormConfig | null = null;
   pageForm: FormGroup = new FormGroup({});
 
   // Initialisation de l'objet selon votre interface AmlPageConfig
-  pageConfig: AmlPageConfig = {
-    pageName: '',
-    pageTitle: '',
-    pageDescription: '',
-    formConfig: [],
+  pageConfig: AmlFormConfig = {
+    formName: '',
+    formTitle: '',
+    formDescription: '',
+    inputConfigs: [],
     order: 1,
   };
 
@@ -63,9 +62,9 @@ export class AmlPageConfigComponent implements OnInit {
       const id = params.get("id");
       this.isEditeMode = !!id;
       if (this.isEditeMode) {
-        this.pageConfigService.findById(id).subscribe(data => {
-          this.editedPageConfig = data;
-          this.initializeFormWithAmlPageConfig(this.editedPageConfig);
+        this.amlFormConfigService.findById(id).subscribe(data => {
+          this.editedFormConfig = data;
+          this.initializeFormWithAmlPageConfig(this.editedFormConfig);
         })
       }
     });
@@ -74,30 +73,30 @@ export class AmlPageConfigComponent implements OnInit {
   // build dynamic form for the page
   private buildForm(): void {
     this.pageForm = this.fb.group({
-      pageName: [this.pageConfig.pageName, Validators.required],
-      pageTitle: [this.pageConfig.pageTitle, Validators.required],
-      pageDescription: [this.pageConfig.pageDescription],
+      pageName: [this.pageConfig.formName, Validators.required],
+      pageTitle: [this.pageConfig.formTitle, Validators.required],
+      pageDescription: [this.pageConfig.formDescription],
       pageOrder: [this.pageConfig.order],
     });
   }
 
 
-  openInputFieldDialogForEdit(inputTypeConfig: InputTypeConfig): void {
-    this.selectedInputTypeConfig = inputTypeConfig;
-    this.showDialogNewInputTypeConfig = true;
+  openInputFieldDialogForEdit(inputTypeConfig: AmlInputConfig): void {
+    this.selectedAmlInputConfig = inputTypeConfig;
+    this.showDialogNewInputAmlConfig = true;
   }
 
   // SAUVEGARDE GLOBALE DE LA PAGE
   private saveNewPage(): void {
-    if (this.pageForm.valid && this.inputTypesConfigs.length > 0) {
+    if (this.pageForm.valid && this.amlInputConfigs.length > 0) {
       this.pageConfig = this.convertFormToAmlPageConfig();
       this.generateIdsForMultipleOptions(this.pageConfig);
       this.alertService.confirmMessage("Ajout Nouvelle Page ", "Voullez-vous ajouter la page", 'question').then(result => {
         if (result) {
-          this.pageConfigService.create(this.pageConfig).subscribe({
+          this.amlFormConfigService.create(this.pageConfig).subscribe({
             next: (response) => {
               this.alertService.displayMessage("nouvelle page ", "la nouvelle page est bien ajouter ", 'success');
-              this.navigationService.navigateToPageConfigList();
+              this.navigationService.navigateToFormConfigList();
             },
             error: (err) => {
               this.alertService.displayMessage("Error... ", "Error ajout de la page merci de contacter le support ", 'error');
@@ -109,16 +108,16 @@ export class AmlPageConfigComponent implements OnInit {
   }
 
   private editNewPage(): void {
-    if (this.pageForm.valid && this.inputTypesConfigs.length > 0) {
+    if (this.pageForm.valid && this.amlInputConfigs.length > 0) {
       this.pageConfig = this.convertFormToAmlPageConfig();
-      this.pageConfig.id = this.editedPageConfig?.id;
+      this.pageConfig.id = this.editedFormConfig?.id;
 
-      this.alertService.confirmMessage("Updtae Page ", "Voullez-vous mettre a jour la page " + this.pageConfig.pageName, 'question').then(result => {
+      this.alertService.confirmMessage("Updtae Page ", "Voullez-vous mettre a jour la page " + this.pageConfig.formName, 'question').then(result => {
         if (result) {
-          this.pageConfigService.update(this.editedPageConfig?.id, this.pageConfig).subscribe({
+          this.amlFormConfigService.update(this.editedFormConfig?.id, this.pageConfig).subscribe({
             next: (response) => {
               this.alertService.displayMessage("Page mis  a jour  ", "la nouvelle page est bien ajouter ", 'success');
-              this.navigationService.navigateToPageConfigList();
+              this.navigationService.navigateToFormConfigList();
             },
             error: (err) => {
               this.alertService.displayMessage("Error... ", "Error de la mise a jour de la page, merci de contacter le support ", 'error');
@@ -133,11 +132,11 @@ export class AmlPageConfigComponent implements OnInit {
 
 
   private isInputTypeConfigExist(name: string): boolean {
-    return this.inputTypesConfigs.some(config => config.name === name);
+    return this.amlInputConfigs.some(config => config.name === name);
   }
 
-  private generateIdsForMultipleOptions(AmlPageConfig: AmlPageConfig) {
-    AmlPageConfig.formConfig.forEach(inputTypeConfig => {
+  private generateIdsForMultipleOptions(AmlPageConfig: AmlFormConfig) {
+    AmlPageConfig.inputConfigs.forEach(inputTypeConfig => {
       inputTypeConfig.id = inputTypeConfig.id || this.utilsService.generateTimestampId();
       if (inputTypeConfig.options && inputTypeConfig.options.length > 0) {
         inputTypeConfig.options.forEach(option => {
@@ -148,7 +147,7 @@ export class AmlPageConfigComponent implements OnInit {
       }
     });
   }
-  OnDeleteInputTypeConfigDialo(toDeleteInputTypeConfig: InputTypeConfig): void {
+  OnDeleteInputTypeConfigDialo(toDeleteInputTypeConfig: AmlInputConfig): void {
     this.alertService.confirmMessage("suppression Input type config ", "voullez-vous supprimez " + toDeleteInputTypeConfig.name, 'warning').then(result => {
       if (result) {
         this.deleteInputTypeConfig(toDeleteInputTypeConfig.name);
@@ -161,10 +160,10 @@ export class AmlPageConfigComponent implements OnInit {
 
 
   private deleteInputTypeConfig(name: string): void {
-    const index = this.inputTypesConfigs.findIndex(config => config.name === name);
+    const index = this.amlInputConfigs.findIndex(config => config.name === name);
     if (index !== -1) {
-      this.inputTypesConfigs.splice(index, 1);
-      this.pageConfig.formConfig = [...this.inputTypesConfigs];
+      this.amlInputConfigs.splice(index, 1);
+      this.pageConfig.inputConfigs = [...this.amlInputConfigs];
     }
   }
 
@@ -180,21 +179,21 @@ export class AmlPageConfigComponent implements OnInit {
 
 
   // In your component class
-  private convertFormToAmlPageConfig(): AmlPageConfig {
+  private convertFormToAmlPageConfig(): AmlFormConfig {
     const formValue = this.pageForm.getRawValue(); // Use getRawValue() to get all values including disabled controls
-    const amlPageConfig: AmlPageConfig = {
-      pageName: formValue.pageName,
-      pageTitle: formValue.pageTitle,
-      pageDescription: formValue.pageDescription || '', // Handle optional field
+    const amlPageConfig: AmlFormConfig = {
+      formName: formValue.pageName,
+      formTitle: formValue.pageTitle,
+      formDescription: formValue.pageDescription || '', // Handle optional field
       order: formValue.pageOrder || 0, // Assuming order is number, provide default
-      formConfig: this.inputTypesConfigs,
+      inputConfigs: this.amlInputConfigs,
     };
 
     return amlPageConfig;
   }
 
   annuler(): void {
-    this.navigationService.navigateToPageConfigList();
+    this.navigationService.navigateToFormConfigList();
   }
 
   openPreviewDialog(): void {
@@ -207,14 +206,14 @@ export class AmlPageConfigComponent implements OnInit {
   }
 
   // Initialize form when creating component or loading data
-  private initializeFormWithAmlPageConfig(pageConfig: AmlPageConfig): void {
+  private initializeFormWithAmlPageConfig(pageConfig: AmlFormConfig): void {
     this.pageForm = this.fb.group({
-      pageName: [pageConfig.pageName || '', Validators.required],
-      pageTitle: [pageConfig.pageTitle || '', Validators.required],
-      pageDescription: [pageConfig.pageDescription || ''],
+      pageName: [pageConfig.formName || '', Validators.required],
+      pageTitle: [pageConfig.formTitle || '', Validators.required],
+      pageDescription: [pageConfig.formDescription || ''],
       pageOrder: [pageConfig.order || 0],
     });
-    this.inputTypesConfigs = pageConfig.formConfig;
+    this.amlInputConfigs = pageConfig.inputConfigs;
 
   }
 
@@ -222,35 +221,35 @@ export class AmlPageConfigComponent implements OnInit {
 
   // add or update new field config
   openInputFieldConfigDialog(): void {
-    this.showDialogNewInputTypeConfig = true;
+    this.showDialogNewInputAmlConfig = true;
   }
 
   closeInputFieldConfigDialog(): void {
-    this.selectedInputTypeConfig = null;
-    this.showDialogNewInputTypeConfig = false;
+    this.selectedAmlInputConfig = null;
+    this.showDialogNewInputAmlConfig = false;
   }
 
   addInputTypeConfig(inputTypeConfig: any): void {
 
-    inputTypeConfig = inputTypeConfig as InputTypeConfig;
+    inputTypeConfig = inputTypeConfig as AmlInputConfig;
     // check if the field already exists (update) or is new (add)
     if (this.isInputTypeConfigExist(inputTypeConfig.name)) {
       this.alertService.displayMessage("Ajout Input type config ", "input type config existe deja avec le meme nom : " + inputTypeConfig.name, "error");
     } else {
-      this.inputTypesConfigs.push(inputTypeConfig);
-      this.pageConfig.formConfig = [...this.inputTypesConfigs];
+      this.amlInputConfigs.push(inputTypeConfig);
+      this.pageConfig.inputConfigs = [...this.amlInputConfigs];
     }
     this.closeInputFieldConfigDialog();
   }
 
-  updateInputTypeConfig(updatedConfig: InputTypeConfig): void {
-    if (!this.selectedInputTypeConfig) {
+  updateInputTypeConfig(updatedConfig: AmlInputConfig): void {
+    if (!this.selectedAmlInputConfig) {
       return;
     }
-    const index = this.inputTypesConfigs.findIndex(config => config.name === this.selectedInputTypeConfig!.name);
+    const index = this.amlInputConfigs.findIndex(config => config.name === this.selectedAmlInputConfig!.name);
     if (index !== -1) {
-      this.inputTypesConfigs[index] = updatedConfig;
-      this.pageConfig.formConfig = [...this.inputTypesConfigs];
+      this.amlInputConfigs[index] = updatedConfig;
+      this.pageConfig.inputConfigs = [...this.amlInputConfigs];
     }
     this.closeInputFieldConfigDialog();
   }

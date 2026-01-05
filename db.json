@@ -21,1844 +21,528 @@
       "name": "Bob"
     }
   ],
-  "InputTypeConfig": [
+  "AmlFormConfig": [
     {
-      "id": null,
-      "type": "select",
-      "name": "Nom Technique (ID Formulaire)",
-      "labelMessage": "estimation interne du risque ",
-      "facteur": 1,
-      "required": false,
-      "placeholder": "Texte d'aide (Placeholder)",
-      "errorMessage": "Message d'erreur personnalisé",
-      "optionsLayout": "block",
-      "displayOrer": 0,
-      "defaultValue": null,
-      "options": [
-        {
-          "value": "faible",
-          "score": 0,
-          "order": 1,
-          "InputTypeConfigId": null
-        },
-        {
-          "value": "moyen",
-          "score": 5,
-          "order": 2,
-          "InputTypeConfigId": null
-        },
-        {
-          "value": "élévé",
-          "score": 10,
-          "order": 3,
-          "InputTypeConfigId": null
-        }
-      ]
-    },
-    {
-      "id": null,
-      "type": "uploadFile",
-      "name": "upload file ",
-      "labelMessage": "fichier crs",
-      "facteur": 1,
-      "required": true,
-      "placeholder": "",
-      "errorMessage": "",
-      "optionsLayout": "block",
-      "displayOrer": 0,
-      "defaultValue": null,
-      "score": 10,
-      "options": []
-    }
-  ],
-  "PageConfig": [
-    {
-      "id": "8177",
-      "pageName": "page1",
-      "pageTitle": "Donnés AML",
-      "pageDescription": "c est une page AML ",
+      "id": "86d2",
+      "formName": "aaa",
+      "formTitle": "aaaa",
+      "formDescription": "aaaa",
       "order": 1,
-      "formConfig": [
+      "inputConfigs": [
         {
-          "id": null,
+          "id": "mk0u86dl-gthhxa0",
           "type": "select",
-          "name": "pays de residence",
-          "labelMessage": "quelle est le pays de résidence du client ?",
-          "facteur": 1,
-          "required": false,
-          "placeholder": "quelle est le pays de résidence du client ?",
-          "errorMessage": "champs obligatoire ",
-          "optionsLayout": "block",
-          "displayOrer": 0,
-          "defaultValue": null,
-          "options": [
-            {
-              "id": "mjvx9my7-j1i13u1",
-              "value": "Afghanistan",
-              "score": 10,
-              "order": 1,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-yajdl8r",
-              "value": "Afrique du Sud",
-              "score": 5,
-              "order": 2,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-o4hsodp",
-              "value": "Albanie",
-              "score": 5,
-              "order": 3,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-o6k7bbf",
-              "value": "Algérie",
-              "score": 7,
-              "order": 4,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-f1dofm2",
-              "value": "Allemagne",
-              "score": 1,
-              "order": 5,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-0tqfm7x",
-              "value": "Andorre",
-              "score": 2,
-              "order": 6,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-jcq6t16",
-              "value": "Angola",
-              "score": 7,
-              "order": 7,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-o3dx445",
-              "value": "Arabie Saoudite",
-              "score": 6,
-              "order": 8,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-f2shgyf",
-              "value": "Argentine",
-              "score": 5,
-              "order": 9,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-dhuhwg1",
-              "value": "Australie",
-              "score": 1,
-              "order": 10,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-v1g66sr",
-              "value": "Autriche",
-              "score": 1,
-              "order": 11,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-21nndkv",
-              "value": "Bahamas",
-              "score": 5,
-              "order": 12,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-qc0ntss",
-              "value": "Belgique",
-              "score": 1,
-              "order": 13,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-9v58be8",
-              "value": "Bénin",
-              "score": 6,
-              "order": 14,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-6xqk0ak",
-              "value": "Birmanie (Myanmar)",
-              "score": 9,
-              "order": 15,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-w2y74z5",
-              "value": "Brésil",
-              "score": 5,
-              "order": 16,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-ezh5x2b",
-              "value": "Bulgarie",
-              "score": 4,
-              "order": 17,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-sobp16g",
-              "value": "Burkina Faso",
-              "score": 8,
-              "order": 18,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-50wdj02",
-              "value": "Cambodge",
-              "score": 8,
-              "order": 19,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-3cxsdnb",
-              "value": "Cameroun",
-              "score": 7,
-              "order": 20,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-kzrr22m",
-              "value": "Canada",
-              "score": 1,
-              "order": 21,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-tuivj3o",
-              "value": "Chili",
-              "score": 3,
-              "order": 22,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-d8nkkb5",
-              "value": "Chine",
-              "score": 6,
-              "order": 23,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-a2w77p7",
-              "value": "Chypre",
-              "score": 4,
-              "order": 24,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-viey02c",
-              "value": "Colombie",
-              "score": 6,
-              "order": 25,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-com61o1",
-              "value": "Corée du Nord",
-              "score": 10,
-              "order": 26,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-eey3j5p",
-              "value": "Corée du Sud",
-              "score": 2,
-              "order": 27,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-8386wdx",
-              "value": "Côte d’Ivoire",
-              "score": 6,
-              "order": 28,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-q3scw7e",
-              "value": "Croatie",
-              "score": 3,
-              "order": 29,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-js5kzja",
-              "value": "Danemark",
-              "score": 1,
-              "order": 30,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-lmads4f",
-              "value": "Égypte",
-              "score": 7,
-              "order": 31,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-bvgsagp",
-              "value": "Émirats Arabes Unis",
-              "score": 4,
-              "order": 32,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-rs7wgeo",
-              "value": "Espagne",
-              "score": 2,
-              "order": 33,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-rq235m3",
-              "value": "Estonie",
-              "score": 1,
-              "order": 34,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-rw5rkc0",
-              "value": "États-Unis",
-              "score": 2,
-              "order": 35,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-lum6xs9",
-              "value": "Finlande",
-              "score": 1,
-              "order": 36,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-c67qcyq",
-              "value": "France",
-              "score": 1,
-              "order": 37,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-y22mu36",
-              "value": "Gabon",
-              "score": 7,
-              "order": 38,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-utpr7a3",
-              "value": "Ghana",
-              "score": 5,
-              "order": 39,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-7oflp0y",
-              "value": "Grèce",
-              "score": 4,
-              "order": 40,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-8v39zls",
-              "value": "Guinée",
-              "score": 7,
-              "order": 41,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-5hrq4ex",
-              "value": "Haïti",
-              "score": 9,
-              "order": 42,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-uzytztg",
-              "value": "Hong Kong",
-              "score": 2,
-              "order": 43,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-0611lwe",
-              "value": "Hongrie",
-              "score": 5,
-              "order": 44,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-62tx2b4",
-              "value": "Îles Caïmans",
-              "score": 4,
-              "order": 45,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-366wyqs",
-              "value": "Îles Vierges Britanniques",
-              "score": 4,
-              "order": 46,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-i1g69lv",
-              "value": "Inde",
-              "score": 6,
-              "order": 47,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-n875qi3",
-              "value": "Indonésie",
-              "score": 5,
-              "order": 48,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-8vf4bqh",
-              "value": "Iran",
-              "score": 10,
-              "order": 49,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-9aokdt6",
-              "value": "Irlande",
-              "score": 1,
-              "order": 50,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-fcawq9k",
-              "value": "Islande",
-              "score": 1,
-              "order": 51,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-0h6axu9",
-              "value": "Israël",
-              "score": 3,
-              "order": 52,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-lg1mww6",
-              "value": "Italie",
-              "score": 3,
-              "order": 53,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-jpxr5kd",
-              "value": "Japon",
-              "score": 1,
-              "order": 54,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-py5bszj",
-              "value": "Jordanie",
-              "score": 5,
-              "order": 55,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-7bq7hyz",
-              "value": "Kazakhstan",
-              "score": 6,
-              "order": 56,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-fin1yh6",
-              "value": "Kenya",
-              "score": 7,
-              "order": 57,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-f5aib2r",
-              "value": "Koweït",
-              "score": 5,
-              "order": 58,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-nfb9mef",
-              "value": "Liban",
-              "score": 8,
-              "order": 59,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-w1y0sgx",
-              "value": "Luxembourg",
-              "score": 2,
-              "order": 60,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-3jha0h2",
-              "value": "Madagascar",
-              "score": 7,
-              "order": 61,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-ilt9dsp",
-              "value": "Malaisie",
-              "score": 5,
-              "order": 62,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-75zrnj6",
-              "value": "Mali",
-              "score": 8,
-              "order": 63,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-wkc1p4x",
-              "value": "Malte",
-              "score": 4,
-              "order": 64,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-ok7gxc6",
-              "value": "Maroc",
-              "score": 5,
-              "order": 65,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-2h8wnuc",
-              "value": "Maurice",
-              "score": 3,
-              "order": 66,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-gmec1wh",
-              "value": "Mexique",
-              "score": 6,
-              "order": 67,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-rhlh1sy",
-              "value": "Monaco",
-              "score": 3,
-              "order": 68,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-if34anq",
-              "value": "Népal",
-              "score": 6,
-              "order": 69,
-              "InputTypeConfigId": null
-            }
-          ]
-        },
-        {
-          "id": null,
-          "type": "checkbox",
-          "name": "données checkbox ",
-          "labelMessage": "select les type d opération demandée ?",
-          "facteur": 1,
-          "required": false,
-          "placeholder": "select les type d opération demandée ?",
-          "errorMessage": "select les type d opération demandée ?",
-          "optionsLayout": "block",
-          "displayOrer": 0,
-          "defaultValue": null,
-          "options": [
-            {
-              "id": "mjvx9my7-o45q72j",
-              "value": "virement",
-              "score": 1,
-              "order": 1,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-ar6x1s3",
-              "value": "retrait",
-              "score": 2,
-              "order": 2,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvx9my7-c21je4c",
-              "value": "achat",
-              "score": 3,
-              "order": 3,
-              "InputTypeConfigId": null
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "pageName": "page2",
-      "pageTitle": "Donnés AML ",
-      "pageDescription": "se sont des donnés AML ",
-      "order": 1,
-      "formConfig": [
-        {
-          "id": null,
-          "type": "select",
-          "name": "pays de residance ",
-          "labelMessage": "quelle le pays de résidence du client ",
+          "name": "aaa",
+          "labelMessage": "aaaaa",
           "facteur": 1,
           "required": true,
-          "placeholder": "quelle le pays de résidence du client ",
-          "errorMessage": "quelle le pays de résidence du client ",
+          "placeholder": "aaa",
+          "errorMessage": "aaa",
           "optionsLayout": "block",
           "displayOrer": 0,
           "defaultValue": null,
           "options": [
             {
-              "id": "mjvzif3w-nwdnnke",
+              "id": "mk0u86dl-qikmi9z",
               "value": "Afghanistan",
               "score": 10,
               "order": 1,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-y12lz8r",
+              "id": "mk0u86dl-hh6hu12",
               "value": "Afrique du Sud",
               "score": 5,
               "order": 2,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-odnboa5",
+              "id": "mk0u86dl-ehhgeet",
               "value": "Albanie",
               "score": 5,
               "order": 3,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-m8ufkj8",
+              "id": "mk0u86dl-4kqi8vc",
               "value": "Algérie",
               "score": 7,
               "order": 4,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-z72qa04",
+              "id": "mk0u86dl-ffgik9e",
               "value": "Allemagne",
               "score": 1,
               "order": 5,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-gbcnk7e",
+              "id": "mk0u86dl-ofw6xx2",
               "value": "Andorre",
               "score": 2,
               "order": 6,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-xyt6pt8",
+              "id": "mk0u86dl-5atnpmy",
               "value": "Angola",
               "score": 7,
               "order": 7,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-mvfm9mb",
+              "id": "mk0u86dl-e2tntne",
               "value": "Arabie Saoudite",
               "score": 6,
               "order": 8,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-18lzoi9",
+              "id": "mk0u86dl-52pdce2",
               "value": "Argentine",
               "score": 5,
               "order": 9,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-bz6egpq",
+              "id": "mk0u86dl-6z4rry2",
               "value": "Australie",
               "score": 1,
               "order": 10,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-kb7mldh",
+              "id": "mk0u86dl-59y1aav",
               "value": "Autriche",
               "score": 1,
               "order": 11,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-cn59f7h",
+              "id": "mk0u86dl-0oct0iw",
               "value": "Bahamas",
               "score": 5,
               "order": 12,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-lb0380q",
+              "id": "mk0u86dl-3ef3sek",
               "value": "Belgique",
               "score": 1,
               "order": 13,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-6s6pbz3",
+              "id": "mk0u86dl-og1dbcb",
               "value": "Bénin",
               "score": 6,
               "order": 14,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-pceeanr",
+              "id": "mk0u86dl-n8waxgr",
               "value": "Birmanie (Myanmar)",
               "score": 9,
               "order": 15,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-8tp2j55",
+              "id": "mk0u86dl-ltogyrp",
               "value": "Brésil",
               "score": 5,
               "order": 16,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-9mxxp3m",
+              "id": "mk0u86dl-6nqgfv8",
               "value": "Bulgarie",
               "score": 4,
               "order": 17,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-14ndpha",
+              "id": "mk0u86dl-57tggay",
               "value": "Burkina Faso",
               "score": 8,
               "order": 18,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-sbczj6w",
+              "id": "mk0u86dl-7cid39l",
               "value": "Cambodge",
               "score": 8,
               "order": 19,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-g6es9k6",
+              "id": "mk0u86dl-b9p82p6",
               "value": "Cameroun",
               "score": 7,
               "order": 20,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-ylogayh",
+              "id": "mk0u86dl-w2a1jiz",
               "value": "Canada",
               "score": 1,
               "order": 21,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-ksod6he",
+              "id": "mk0u86dl-028vfaa",
               "value": "Chili",
               "score": 3,
               "order": 22,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-pmfhb2q",
+              "id": "mk0u86dl-tacwmk0",
               "value": "Chine",
               "score": 6,
               "order": 23,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-tuh0z5q",
+              "id": "mk0u86dl-tqdj795",
               "value": "Chypre",
               "score": 4,
               "order": 24,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-pths18l",
+              "id": "mk0u86dl-6gg67pk",
               "value": "Colombie",
               "score": 6,
               "order": 25,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-k2ul719",
+              "id": "mk0u86dl-x73l4ir",
               "value": "Corée du Nord",
               "score": 10,
               "order": 26,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-oowngi1",
+              "id": "mk0u86dl-vmrsefr",
               "value": "Corée du Sud",
               "score": 2,
               "order": 27,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-6cm4dr4",
+              "id": "mk0u86dl-yf6ujx9",
               "value": "Côte d’Ivoire",
               "score": 6,
               "order": 28,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-ngp55bx",
+              "id": "mk0u86dl-884swhz",
               "value": "Croatie",
               "score": 3,
               "order": 29,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-h8ml6du",
+              "id": "mk0u86dl-xqlhmxd",
               "value": "Danemark",
               "score": 1,
               "order": 30,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-amk5ber",
+              "id": "mk0u86dl-3abzitl",
               "value": "Égypte",
               "score": 7,
               "order": 31,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-8zzddwi",
+              "id": "mk0u86dl-cgjbd3e",
               "value": "Émirats Arabes Unis",
               "score": 4,
               "order": 32,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-8421d9a",
+              "id": "mk0u86dl-r3j42n0",
               "value": "Espagne",
               "score": 2,
               "order": 33,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-t1ne7ny",
+              "id": "mk0u86dl-emw9rm8",
               "value": "Estonie",
               "score": 1,
               "order": 34,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-kdlae4l",
+              "id": "mk0u86dl-ep5y8uw",
               "value": "États-Unis",
               "score": 2,
               "order": 35,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-lokw5e7",
+              "id": "mk0u86dl-cftbnhw",
               "value": "Finlande",
               "score": 1,
               "order": 36,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-l9f0cs5",
+              "id": "mk0u86dl-4ow8hr1",
               "value": "France",
               "score": 1,
               "order": 37,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-rp7j7g4",
+              "id": "mk0u86dl-9hmmm3e",
               "value": "Gabon",
               "score": 7,
               "order": 38,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-ch8xacf",
+              "id": "mk0u86dl-uaja7ib",
               "value": "Ghana",
               "score": 5,
               "order": 39,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-9oxim0p",
+              "id": "mk0u86dl-vh50784",
               "value": "Grèce",
               "score": 4,
               "order": 40,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-zs4jv8h",
+              "id": "mk0u86dl-tunpty7",
               "value": "Guinée",
               "score": 7,
               "order": 41,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-1l1ebb7",
+              "id": "mk0u86dl-6aw1vs0",
               "value": "Haïti",
               "score": 9,
               "order": 42,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-cjr3vhg",
+              "id": "mk0u86dl-gmvowtx",
               "value": "Hong Kong",
               "score": 2,
               "order": 43,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-c3p6vm2",
+              "id": "mk0u86dl-p4n1ip7",
               "value": "Hongrie",
               "score": 5,
               "order": 44,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-ybgob2z",
+              "id": "mk0u86dl-8wvitv6",
               "value": "Îles Caïmans",
               "score": 4,
               "order": 45,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-gwv8yxi",
+              "id": "mk0u86dl-ivc3ewh",
               "value": "Îles Vierges Britanniques",
               "score": 4,
               "order": 46,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-50cdy92",
+              "id": "mk0u86dl-bi829iw",
               "value": "Inde",
               "score": 6,
               "order": 47,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-tdmm9v6",
+              "id": "mk0u86dl-g87rw63",
               "value": "Indonésie",
               "score": 5,
               "order": 48,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-v87rj7d",
+              "id": "mk0u86dl-rlnbf8u",
               "value": "Iran",
               "score": 10,
               "order": 49,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-qi7bxc5",
+              "id": "mk0u86dl-zgu4nb3",
               "value": "Irlande",
               "score": 1,
               "order": 50,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-y4r1taw",
+              "id": "mk0u86dl-pa51ab9",
               "value": "Islande",
               "score": 1,
               "order": 51,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-cblkn3a",
+              "id": "mk0u86dl-xjrdqsa",
               "value": "Israël",
               "score": 3,
               "order": 52,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-1bjzuio",
+              "id": "mk0u86dl-ipurk7k",
               "value": "Italie",
               "score": 3,
               "order": 53,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-fk4el1l",
+              "id": "mk0u86dl-ibxo117",
               "value": "Japon",
               "score": 1,
               "order": 54,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-9bv1yw8",
+              "id": "mk0u86dl-s693x9t",
               "value": "Jordanie",
               "score": 5,
               "order": 55,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-s7t1eto",
+              "id": "mk0u86dl-6vm7uf7",
               "value": "Kazakhstan",
               "score": 6,
               "order": 56,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-1tht1g0",
+              "id": "mk0u86dl-tlq9n1s",
               "value": "Kenya",
               "score": 7,
               "order": 57,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-8ihr7cl",
+              "id": "mk0u86dl-6jlrcla",
               "value": "Koweït",
               "score": 5,
               "order": 58,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-9i35xhj",
+              "id": "mk0u86dl-ozjlclq",
               "value": "Liban",
               "score": 8,
               "order": 59,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-d40msdh",
+              "id": "mk0u86dl-058iz83",
               "value": "Luxembourg",
               "score": 2,
               "order": 60,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-wmfjalz",
+              "id": "mk0u86dl-c8d79y9",
               "value": "Madagascar",
               "score": 7,
               "order": 61,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-v5vlk7g",
+              "id": "mk0u86dl-cx3f92v",
               "value": "Malaisie",
               "score": 5,
               "order": 62,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-596cqys",
+              "id": "mk0u86dl-fvcn23x",
               "value": "Mali",
               "score": 8,
               "order": 63,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-w60jbpv",
+              "id": "mk0u86dl-2tdeis8",
               "value": "Malte",
               "score": 4,
               "order": 64,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-hagr8jl",
+              "id": "mk0u86dl-expbos8",
               "value": "Maroc",
               "score": 5,
               "order": 65,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-7hn9rnf",
+              "id": "mk0u86dl-3cl3ch5",
               "value": "Maurice",
               "score": 3,
               "order": 66,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-tk6poac",
+              "id": "mk0u86dl-ugiw5fd",
               "value": "Mexique",
               "score": 6,
               "order": 67,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-pvnpi8a",
+              "id": "mk0u86dl-00z46rk",
               "value": "Monaco",
               "score": 3,
               "order": 68,
               "InputTypeConfigId": null
             },
             {
-              "id": "mjvzif3w-dn3rvce",
+              "id": "mk0u86dl-b6pfd5g",
               "value": "Népal",
               "score": 6,
               "order": 69,
               "InputTypeConfigId": null
             }
           ]
-        },
-        {
-          "id": null,
-          "type": "checkbox",
-          "name": "type de transaction",
-          "labelMessage": "quelle type de transactions prévues par le client ",
-          "facteur": 1,
-          "required": true,
-          "placeholder": "quelle type de transactions prévues par le clien",
-          "errorMessage": "quelle type de transactions prévues par le clien",
-          "optionsLayout": "block",
-          "displayOrer": 0,
-          "defaultValue": null,
-          "options": [
-            {
-              "id": "mjvzif3w-hpd1kuz",
-              "value": "petit <5000 euros ",
-              "score": 1,
-              "order": 1,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvzif3w-0zb618i",
-              "value": "moyen entre 5000 et 100000 euros ",
-              "score": 3,
-              "order": 2,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvzif3w-arxzpnk",
-              "value": "grande entre 100000 et 500000 euros ",
-              "score": 5,
-              "order": 3,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvzif3w-v499125",
-              "value": ">1000000 ",
-              "score": 8,
-              "order": 4,
-              "InputTypeConfigId": null
-            }
-          ]
-        },
-        {
-          "id": null,
-          "type": "radio",
-          "name": "type d entité ",
-          "labelMessage": "est ce que cette entité travail avec les institut étatique et reconnu comme organisme ",
-          "facteur": 1,
-          "required": false,
-          "placeholder": "est ce que cette entité travail avec les institut étatique et reconnu comme organisme ",
-          "errorMessage": "est ce que cette entité travail avec les institut étatique et reconnu comme organisme ",
-          "optionsLayout": "block",
-          "displayOrer": 0,
-          "defaultValue": null,
-          "options": [
-            {
-              "id": "mjvzif3w-rnwjeo9",
-              "value": "Oui",
-              "score": 0,
-              "order": 1,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjvzif3w-xc2acwf",
-              "value": "Non",
-              "score": 5,
-              "order": 2,
-              "InputTypeConfigId": null
-            }
-          ]
-        },
-        {
-          "id": null,
-          "type": "uploadFile",
-          "name": "billan de la société ",
-          "labelMessage": "bilan de la société ",
-          "facteur": 2,
-          "required": false,
-          "placeholder": "bilan de la société ",
-          "errorMessage": "bilan de la société ",
-          "optionsLayout": "block",
-          "displayOrer": 0,
-          "defaultValue": null,
-          "score": 2,
-          "options": []
-        }
-      ],
-      "id": "e1e3"
-    },
-    {
-      "id": "6d8f",
-      "pageName": "zz",
-      "pageTitle": "AML page 3",
-      "pageDescription": "test mml configuration avec the id ",
-      "order": 1,
-      "formConfig": [
-        {
-          "id": "mjztc3iy-e5r2pjq",
-          "type": "select",
-          "name": "pays de residence ",
-          "labelMessage": "c' est ou le pays de residence",
-          "facteur": 1,
-          "required": false,
-          "placeholder": "c' est ou le pays de residence",
-          "errorMessage": "c' est ou le pays de residence",
-          "optionsLayout": "block",
-          "displayOrer": 0,
-          "defaultValue": null,
-          "options": [
-            {
-              "id": "mjztc3iy-rx5k5ed",
-              "value": "Afghanistan",
-              "score": 10,
-              "order": 1,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-f0mwf4k",
-              "value": "Afrique du Sud",
-              "score": 5,
-              "order": 2,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-disg44p",
-              "value": "Albanie",
-              "score": 5,
-              "order": 3,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-mv5j5po",
-              "value": "Algérie",
-              "score": 7,
-              "order": 4,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-zt926kt",
-              "value": "Allemagne",
-              "score": 1,
-              "order": 5,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-yisoypc",
-              "value": "Andorre",
-              "score": 2,
-              "order": 6,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-0v1bdls",
-              "value": "Angola",
-              "score": 7,
-              "order": 7,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-aco7ahv",
-              "value": "Arabie Saoudite",
-              "score": 6,
-              "order": 8,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-y96qj51",
-              "value": "Argentine",
-              "score": 5,
-              "order": 9,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-hqfokm6",
-              "value": "Australie",
-              "score": 1,
-              "order": 10,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-ytra5cx",
-              "value": "Autriche",
-              "score": 1,
-              "order": 11,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-l3a0oi8",
-              "value": "Bahamas",
-              "score": 5,
-              "order": 12,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-10gpdo5",
-              "value": "Belgique",
-              "score": 1,
-              "order": 13,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-gzifnb0",
-              "value": "Bénin",
-              "score": 6,
-              "order": 14,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-7j3xcge",
-              "value": "Birmanie (Myanmar)",
-              "score": 9,
-              "order": 15,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-sxh496l",
-              "value": "Brésil",
-              "score": 5,
-              "order": 16,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-ce6iiqh",
-              "value": "Bulgarie",
-              "score": 4,
-              "order": 17,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-fos05au",
-              "value": "Burkina Faso",
-              "score": 8,
-              "order": 18,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-hk8yu2j",
-              "value": "Cambodge",
-              "score": 8,
-              "order": 19,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-f7sk0vm",
-              "value": "Cameroun",
-              "score": 7,
-              "order": 20,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-xjme7pm",
-              "value": "Canada",
-              "score": 1,
-              "order": 21,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-2zbu7cf",
-              "value": "Chili",
-              "score": 3,
-              "order": 22,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-7wqt676",
-              "value": "Chine",
-              "score": 6,
-              "order": 23,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-uxwy12h",
-              "value": "Chypre",
-              "score": 4,
-              "order": 24,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-ttp339l",
-              "value": "Colombie",
-              "score": 6,
-              "order": 25,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-mui77nv",
-              "value": "Corée du Nord",
-              "score": 10,
-              "order": 26,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-h6e6j7h",
-              "value": "Corée du Sud",
-              "score": 2,
-              "order": 27,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-m2b143n",
-              "value": "Côte d’Ivoire",
-              "score": 6,
-              "order": 28,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-p1namnr",
-              "value": "Croatie",
-              "score": 3,
-              "order": 29,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-xy1b9d3",
-              "value": "Danemark",
-              "score": 1,
-              "order": 30,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-1ci1yd4",
-              "value": "Égypte",
-              "score": 7,
-              "order": 31,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-qhmf6vt",
-              "value": "Émirats Arabes Unis",
-              "score": 4,
-              "order": 32,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-oh9gl6u",
-              "value": "Espagne",
-              "score": 2,
-              "order": 33,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-x6q65t7",
-              "value": "Estonie",
-              "score": 1,
-              "order": 34,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-v5svaec",
-              "value": "États-Unis",
-              "score": 2,
-              "order": 35,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-cles1th",
-              "value": "Finlande",
-              "score": 1,
-              "order": 36,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-zph845w",
-              "value": "France",
-              "score": 1,
-              "order": 37,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-a0jxepy",
-              "value": "Gabon",
-              "score": 7,
-              "order": 38,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-qsu4xle",
-              "value": "Ghana",
-              "score": 5,
-              "order": 39,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-zgtdyo4",
-              "value": "Grèce",
-              "score": 4,
-              "order": 40,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-4c7o7ol",
-              "value": "Guinée",
-              "score": 7,
-              "order": 41,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-ztzd84s",
-              "value": "Haïti",
-              "score": 9,
-              "order": 42,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-a3xhhxs",
-              "value": "Hong Kong",
-              "score": 2,
-              "order": 43,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-papof9d",
-              "value": "Hongrie",
-              "score": 5,
-              "order": 44,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-5n7wf91",
-              "value": "Îles Caïmans",
-              "score": 4,
-              "order": 45,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-rfru4it",
-              "value": "Îles Vierges Britanniques",
-              "score": 4,
-              "order": 46,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-xulmonq",
-              "value": "Inde",
-              "score": 6,
-              "order": 47,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-8lfawnd",
-              "value": "Indonésie",
-              "score": 5,
-              "order": 48,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-sg027v9",
-              "value": "Iran",
-              "score": 10,
-              "order": 49,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-mx2fowh",
-              "value": "Irlande",
-              "score": 1,
-              "order": 50,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-nfvt381",
-              "value": "Islande",
-              "score": 1,
-              "order": 51,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-9glkpw3",
-              "value": "Israël",
-              "score": 3,
-              "order": 52,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-2iryojf",
-              "value": "Italie",
-              "score": 3,
-              "order": 53,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-hnxrlso",
-              "value": "Japon",
-              "score": 1,
-              "order": 54,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-huytgia",
-              "value": "Jordanie",
-              "score": 5,
-              "order": 55,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-ez1171d",
-              "value": "Kazakhstan",
-              "score": 6,
-              "order": 56,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-vqqtz30",
-              "value": "Kenya",
-              "score": 7,
-              "order": 57,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-dcv7v3h",
-              "value": "Koweït",
-              "score": 5,
-              "order": 58,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-t0r0tvq",
-              "value": "Liban",
-              "score": 8,
-              "order": 59,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-xyusyil",
-              "value": "Luxembourg",
-              "score": 2,
-              "order": 60,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-wwh4ck6",
-              "value": "Madagascar",
-              "score": 7,
-              "order": 61,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-ptckzs9",
-              "value": "Malaisie",
-              "score": 5,
-              "order": 62,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-ycc6bnl",
-              "value": "Mali",
-              "score": 8,
-              "order": 63,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-xlxow1e",
-              "value": "Malte",
-              "score": 4,
-              "order": 64,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-tbwcf4l",
-              "value": "Maroc",
-              "score": 5,
-              "order": 65,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-elmj6xe",
-              "value": "Maurice",
-              "score": 3,
-              "order": 66,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-p6w6foy",
-              "value": "Mexique",
-              "score": 6,
-              "order": 67,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-w04nqro",
-              "value": "Monaco",
-              "score": 3,
-              "order": 68,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-ld8brgq",
-              "value": "Népal",
-              "score": 6,
-              "order": 69,
-              "InputTypeConfigId": null
-            }
-          ]
-        },
-        {
-          "id": "mjztc3iy-aqm3kgm",
-          "type": "checkbox",
-          "name": "montant prévu de transaction ",
-          "labelMessage": "montant prévu de transaction ",
-          "facteur": 1,
-          "required": false,
-          "placeholder": "montant prévu de transaction ",
-          "errorMessage": "",
-          "optionsLayout": "block",
-          "displayOrer": 0,
-          "defaultValue": null,
-          "options": [
-            {
-              "id": "mjztc3iy-qqj3u5u",
-              "value": ">000",
-              "score": 1,
-              "order": 1,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-hlqggkj",
-              "value": ">1000",
-              "score": 2,
-              "order": 2,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-7njydkx",
-              "value": ">10000",
-              "score": 3,
-              "order": 3,
-              "InputTypeConfigId": null
-            }
-          ]
-        },
-        {
-          "id": "mjztc3iy-e48kjjj",
-          "type": "radio",
-          "name": "vérification ubo manuelle ",
-          "labelMessage": "vérification ubo manuelle  fait ? ",
-          "facteur": 1,
-          "required": false,
-          "placeholder": "vérification ubo manuelle ",
-          "errorMessage": "vérification ubo manuelle ",
-          "optionsLayout": "block",
-          "displayOrer": 0,
-          "defaultValue": null,
-          "options": [
-            {
-              "id": "mjztc3iy-s8za9pm",
-              "value": "Oui",
-              "score": 0,
-              "order": 1,
-              "InputTypeConfigId": null
-            },
-            {
-              "id": "mjztc3iy-xkqrpfs",
-              "value": "Non",
-              "score": 7,
-              "order": 2,
-              "InputTypeConfigId": null
-            }
-          ]
-        },
-        {
-          "id": "mjztc3iy-68i05zn",
-          "type": "select",
-          "name": "pays origine de transaction ",
-          "labelMessage": "pays origine de transaction ",
-          "facteur": 1,
-          "required": false,
-          "placeholder": "pays origine de transaction ",
-          "errorMessage": "pays origine de transaction ",
-          "optionsLayout": "block",
-          "displayOrer": 0,
-          "defaultValue": null,
-          "options": [
-            {
-              "id": "mjztc3iy-h1qq2k9",
-              "value": "pays origine de transaction ",
-              "score": 3,
-              "order": 1,
-              "InputTypeConfigId": null
-            }
-          ]
-        },
-        {
-          "id": "mjztc3iy-qg97is6",
-          "type": "uploadFile",
-          "name": "rcs de la société ",
-          "labelMessage": "rcs de la société ",
-          "facteur": 1,
-          "required": false,
-          "placeholder": "rcs de la société ",
-          "errorMessage": "rcs de la société ",
-          "optionsLayout": "block",
-          "displayOrer": 0,
-          "defaultValue": null,
-          "score": 8,
-          "options": []
         }
       ]
     }
   ],
-  "AmlPageConfigResult": [
+  "AMLInputConfig": [],
+  "AMLInputOption": [],
+  "AmlInputValue": [],
+  "AmlFormResult": [
     {
-      "id": "2390",
-      "amlPageConfigID": "6d8f",
-      "totalScore": 21,
+      "id": "d890",
+      "amlFormConfigID": "86d2",
+      "totalScore": 10,
       "AmlPageConfigValues": [
         {
-          "amlPageConfigID": "6d8f",
-          "InputTypeConfigID": "mjztc3iy-e5r2pjq",
-          "value": "Albanie"
-        },
-        {
-          "amlPageConfigID": "6d8f",
-          "InputTypeConfigID": "mjztc3iy-aqm3kgm",
-          "value": ">000"
-        },
-        {
-          "amlPageConfigID": "6d8f",
-          "InputTypeConfigID": "mjztc3iy-aqm3kgm",
-          "value": ">1000"
-        },
-        {
-          "amlPageConfigID": "6d8f",
-          "InputTypeConfigID": "mjztc3iy-aqm3kgm",
-          "value": ">10000"
-        },
-        {
-          "amlPageConfigID": "6d8f",
-          "InputTypeConfigID": "mjztc3iy-e48kjjj",
-          "value": "Non"
-        },
-        {
-          "amlPageConfigID": "6d8f",
-          "InputTypeConfigID": "mjztc3iy-68i05zn",
-          "value": "pays origine de transaction "
-        },
-        {
-          "amlPageConfigID": "6d8f",
-          "InputTypeConfigID": "mjztc3iy-qg97is6",
-          "value": "countries - Copie.csv"
+          "amlFormConfig": "86d2",
+          "InputConfigID": "mk0u86dl-gthhxa0",
+          "value": "Afghanistan"
         }
       ]
     }
